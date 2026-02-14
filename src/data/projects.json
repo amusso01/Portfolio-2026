@@ -1,0 +1,62 @@
+[
+  {
+    "id": "luxury-fashion-shopify",
+    "title": "Luxury Fashion Store",
+    "client": "Maison Elegance",
+    "description": "A premium Shopify Plus store featuring custom checkout extensions, 3D product viewers, and seamless internationalization. Achieved 40% increase in conversion rate.",
+    "tags": ["Shopify Plus", "Liquid", "GSAP", "3D Product Viewer"],
+    "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&h=675&fit=crop",
+    "link": "https://example.com/project1",
+    "year": "2024"
+  },
+  {
+    "id": "multi-vendor-woocommerce",
+    "title": "Multi-Vendor Marketplace",
+    "client": "Crafters Hub",
+    "description": "A complex WooCommerce marketplace with 500+ vendors, custom vendor dashboards, commission tracking, and advanced product filtering. Built custom plugins for vendor fulfillment.",
+    "tags": ["WooCommerce", "Custom Plugins", "Multi-vendor", "Marketplace"],
+    "image": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&h=675&fit=crop",
+    "link": "https://example.com/project2",
+    "year": "2024"
+  },
+  {
+    "id": "shopify-app-inventory",
+    "title": "Inventory Management App",
+    "client": "Internal Tool",
+    "description": "A Shopify app for real-time inventory synchronization across multiple locations. Features barcode scanning, automated reorder alerts, and detailed analytics dashboard.",
+    "tags": ["Shopify App", "React", "Node.js", "Real-time Sync"],
+    "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=675&fit=crop",
+    "link": "https://example.com/project3",
+    "year": "2023"
+  },
+  {
+    "id": "beauty-brand-woocommerce",
+    "title": "Organic Beauty Brand",
+    "client": "Pure Glow",
+    "description": "A conversion-optimized WooCommerce store with subscription capabilities, personalized product recommendations, and engaging micro-animations powered by GSAP.",
+    "tags": ["WooCommerce", "Subscriptions", "GSAP", "Personalization"],
+    "image": "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=1200&h=675&fit=crop",
+    "link": "https://example.com/project4",
+    "year": "2023"
+  },
+  {
+    "id": "woocommerce-plugin-subscriptions",
+    "title": "Subscription Box Plugin",
+    "client": "BoxCraft",
+    "description": "A comprehensive WooCommerce plugin enabling subscription box businesses. Features flexible billing cycles, box customization, and automated fulfillment integrations.",
+    "tags": ["WooCommerce Plugin", "PHP", "Subscriptions", "WooCommerce"],
+    "image": "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1200&h=675&fit=crop",
+    "link": "https://example.com/project5",
+    "year": "2023"
+  },
+  {
+    "id": "creative-agency-portfolio",
+    "title": "Creative Agency Portfolio",
+    "client": "Pixel Dreams",
+    "description": "An award-winning portfolio site featuring complex scroll animations, WebGL transitions, and a custom CMS. Showcases the agency's work through immersive storytelling.",
+    "tags": ["GSAP", "WebGL", "React", "Custom CMS"],
+    "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1200&h=675&fit=crop",
+    "link": "https://example.com/project6",
+    "year": "2022"
+  }
+]

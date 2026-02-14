@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<!--
+  =============================================================================
+  PORTFOLIO SITE - HTML ENTRY POINT
+  =============================================================================
+  This is the single HTML file that serves as the shell for the React SPA.
+  Vite uses this as the template during development and production builds.
+  
+  Flow:
+  1. Browser loads this HTML
+  2. The script tag loads /src/main.tsx as an ES module
+  3. main.tsx bootstraps React and mounts the app into #root
+  =============================================================================
+-->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+  <!-- React app mounts here - createRoot() attaches to this div -->
+  <div id="root"></div>
+  <!-- type="module" enables ES6 imports; Vite resolves /src/main.tsx -->
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
+</html>

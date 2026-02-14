@@ -1,0 +1,135 @@
+/* =============================================================================
+   GLOBAL STYLES - Typography, Base, Components, Utilities
+   =============================================================================
+   Fonts: Space Grotesk (body), Alexandria (headings)
+   Tailwind layers: base (reset, typography), components (reusable), utilities
+   Lenis: styles required for smooth scroll library
+   ============================================================================= */
+@import url('https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&family=Space+Grotesk:wght@300..700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	/* Design tokens used by tailwind.config */
+	:root {
+		--radius: 0.5rem;
+		--background: 0 0% 100%;
+		--foreground: 0 0% 7%;
+	}
+
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+
+	html {
+		scroll-behavior: auto;
+	}
+
+	body {
+		font-family: 'Space Grotesk', sans-serif;
+		background-color: #fafafa;
+		color: #101110;
+		overflow-x: hidden;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		font-family: 'Alexandria', sans-serif;
+		color: #101110;
+	}
+
+	::selection {
+		background-color: #f7924e;
+		color: white;
+	}
+}
+
+@layer components {
+	/* Fixed full-screen SVG noise overlay for texture */
+	.grain-overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		pointer-events: none;
+		z-index: 9999;
+		opacity: 0.05;
+		background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+	}
+
+	/* Standard vertical padding for major sections */
+	.section-padding {
+		padding-top: 120px;
+		padding-bottom: 120px;
+	}
+
+	@media (max-width: 768px) {
+		.section-padding {
+			padding-top: 80px;
+			padding-bottom: 80px;
+		}
+	}
+
+	/* Gradient text: ink to accent blue */
+	.text-gradient {
+		background: linear-gradient(135deg, #101110 0%, #f7924e 100%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+	}
+
+	/* Max-width container (1560px) with responsive side padding */
+	.container-custom {
+		max-width: 1560px;
+		margin: 0 auto;
+		padding-left: 40px;
+		padding-right: 40px;
+	}
+
+	@media (max-width: 768px) {
+		.container-custom {
+			padding-left: 20px;
+			padding-right: 20px;
+		}
+	}
+}
+
+@layer utilities {
+	/* Custom easing: cubic-bezier(0.16, 1, 0.3, 1) - snappy feel */
+	.ease-premium {
+		transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+	}
+}
+
+/* Lenis smooth scroll library - recommended global styles */
+html.lenis,
+html.lenis body {
+	height: auto;
+}
+
+.lenis.lenis-smooth {
+	scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+	overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+	overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+	pointer-events: none;
+}

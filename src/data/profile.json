@@ -1,0 +1,15 @@
+{
+	"name": "Andrea Musso",
+	"title": "Senior Web Developer",
+	"tagline": "Building Digital Commerce Experiences",
+	"bio": "Over a decade of crafting high-performance e-commerce solutions. I specialize in Shopify and WooCommerce development, creating custom apps and plugins that drive real business results. When I'm not coding, I'm pushing the boundaries of web animation with GSAP to create memorable digital experiences.",
+	"yearsOfExperience": 10,
+	"email": "hello@alexmorgan.dev",
+	"location": "San Francisco, CA",
+	"availability": "Available for freelance projects",
+	"social": {
+		"github": "https://github.com",
+		"linkedin": "https://linkedin.com",
+		"twitter": "https://twitter.com"
+	}
+}
