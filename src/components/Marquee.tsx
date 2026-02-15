@@ -10,10 +10,13 @@ const MARQUEE_ITEMS = ['DEVELOPER', 'FREELANCE', 'CREATIVE', 'DESIGN', 'AM']
 /** Number of repeated segments so track is always wider than viewport (no white space) */
 const MARQUEE_COPIES = 12
 
-function RotatingPlus() {
+function RotatingPlus({ index }: { index: number }) {
+	// Stagger each plus so they're at different phases of the 8s rotation
+	const delay = -(index * 0.5) // negative = start partway through cycle
 	return (
 		<svg
-			className="w-3 h-3 text-accent animate-spin-slow"
+			className="w-5 h-5 text-accent animate-spin-slow"
+			style={{ animationDelay: `${delay}s` }}
 			viewBox="0 0 24 24"
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
@@ -48,8 +51,8 @@ export function Marquee() {
 
 	useEffect(() => {
 		const BASE_DRIFT = 0.15 // px/frame in current direction
-		const SCROLL_FACTOR = 0.04 // lower = slower reaction to scroll
-		const FRICTION = 0.94 // FRICTION controls how quickly the marquee's scroll velocity slows down ("momentum dampening")
+		const SCROLL_FACTOR = 0.03 // lower = slower reaction to scroll
+		const FRICTION = 0.88 // FRICTION controls how quickly the marquee's scroll velocity slows down ("momentum dampening")
 
 		const tick = () => {
 			const track = trackRef.current
@@ -116,7 +119,7 @@ export function Marquee() {
 						<span className="text-xl font-light uppercase tracking-[15%] whitespace-nowrap">
 							{item}
 						</span>
-						<RotatingPlus />
+						<RotatingPlus index={index} />
 					</div>
 				))}
 			</div>

@@ -81,6 +81,28 @@
 		}
 	}
 
+	/* About: taller section so 10+ can sit lower and reveal on scroll to next section */
+	.section-padding-about {
+		padding-bottom: 18vh;
+	}
+
+	@media (max-width: 768px) {
+		.section-padding-about {
+			padding-bottom: 5vh;
+		}
+	}
+
+	/* Push the years number down so ~50% is visible; rest reveals with natural scroll */
+	.number-offset {
+		margin-top: 10vh;
+	}
+
+	@media (max-width: 768px) {
+		.number-offset {
+			margin-top: 10vh;
+		}
+	}
+
 	/* Gradient text: ink to accent blue */
 	.text-gradient {
 		background: linear-gradient(135deg, #101110 0%, #f7924e 100%);
@@ -102,6 +124,29 @@
 			padding-left: 20px;
 			padding-right: 20px;
 		}
+	}
+
+	/* About section big title: first word fixed width, second scroll-driven, last floated right */
+	.bigTitle {
+		display: flex;
+		flex-wrap: nowrap;
+		align-items: baseline;
+		width: 100%;
+	}
+
+	.bigTitle .titleWord:nth-child(1) {
+		width: 21.5vw;
+		flex-shrink: 0;
+	}
+
+	.bigTitle .titleWord:nth-child(2) {
+		margin-left: 5.75vw;
+		will-change: transform;
+	}
+
+	.bigTitle .titleWord:nth-child(3) {
+		margin-left: auto;
+		flex-shrink: 0;
 	}
 }
 

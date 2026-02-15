@@ -45,8 +45,8 @@ function App() {
 				<Hero />
 				{/* No divider after Hero - marquee serves as divider */}
 				<About />
-				<Skills />
 				<Work />
+				<Skills />
 				<Contact />
 			</main>
 		</ReactLenis>
