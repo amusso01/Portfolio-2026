@@ -35,11 +35,15 @@ const SCROLL_END_MS = 120
 
 // Parallax for the number: vertical movement factor (0 = no move, 1 = 1:1 with scroll)
 const PARALLAX_SPEED = 0.22
+// Reverse parallax for projects number (negative = moves up when scrolling down)
+const PARALLAX_SPEED_UP = -0.1
 
 export function About() {
 	const sectionRef = useRef<HTMLDivElement>(null)
 	const numberRef = useRef<HTMLDivElement>(null)
+	const projectsRef = useRef<HTMLDivElement>(null)
 	const contentRef = useRef<HTMLDivElement>(null)
+	const whatIBuildRef = useRef<HTMLParagraphElement>(null)
 	const movingWordRef = useRef<HTMLSpanElement>(null)
 
 	useEffect(() => {
@@ -56,7 +60,19 @@ export function About() {
 				},
 			)
 
-			/* Paragraphs animate in when they enter view (scrollTrigger); appear later with gentler ease */
+			/* Initial projects number animation: scale + fade */
+			gsap.fromTo(
+				projectsRef.current,
+				{ opacity: 0, scale: 0.8 },
+				{
+					opacity: 1,
+					scale: 1,
+					duration: 1,
+					ease: 'power3.out',
+				},
+			)
+
+			/* Paragraphs animate in when they enter view (scrollTrigger) */
 			const paragraphs = contentRef.current?.querySelectorAll('p')
 			if (paragraphs) {
 				gsap.fromTo(
@@ -70,6 +86,25 @@ export function About() {
 						ease: 'power2.in',
 						scrollTrigger: {
 							trigger: contentRef.current,
+							start: 'top 100%',
+							toggleActions: 'play none none reverse',
+						},
+					},
+				)
+			}
+
+			/* What I Build paragraph: same animation, separate trigger */
+			if (whatIBuildRef.current) {
+				gsap.fromTo(
+					whatIBuildRef.current,
+					{ opacity: 0, y: 30 },
+					{
+						opacity: 1,
+						y: 0,
+						duration: 0.55,
+						ease: 'power2.in',
+						scrollTrigger: {
+							trigger: whatIBuildRef.current,
 							start: 'top 100%',
 							toggleActions: 'play none none reverse',
 						},
@@ -216,6 +251,73 @@ export function About() {
 		}
 	}, [])
 
+	/* Reverse parallax + momentum for the projects number (moves UP on scroll down) */
+	useEffect(() => {
+		const el = projectsRef.current
+		const section = sectionRef.current
+		if (!el || !section) return
+
+		let lastScrollY = window.scrollY
+		let scrollOrigin = section.getBoundingClientRect().top + window.scrollY
+		let scrollBasedY = 0
+		let momentumY = 0
+		let velocityY = 0
+		let displayedY = 0
+		let momentumActive = false
+		let rafId: number | null = null
+		let scrollEndTimeout: ReturnType<typeof setTimeout> | null = null
+
+		function applyTransform(y: number) {
+			el.style.transform = `translate3d(0, ${y}px, 0) scale(1)`
+		}
+
+		function tick() {
+			if (momentumActive) {
+				momentumY += velocityY
+				velocityY *= MOMENTUM_FRICTION
+				if (Math.abs(velocityY) < MOMENTUM_THRESHOLD) {
+					velocityY = 0
+					momentumActive = false
+				}
+			}
+			const targetY = scrollBasedY + momentumY
+			displayedY += (targetY - displayedY) * LERP
+			applyTransform(displayedY)
+			rafId = requestAnimationFrame(tick)
+		}
+
+		function onScroll() {
+			const scrollY = window.scrollY
+			const deltaY = scrollY - lastScrollY
+
+			scrollOrigin = section.getBoundingClientRect().top + window.scrollY
+			scrollBasedY = (scrollY - scrollOrigin) * PARALLAX_SPEED_UP
+			velocityY = deltaY * PARALLAX_SPEED_UP
+			lastScrollY = scrollY
+			momentumActive = false
+
+			if (scrollEndTimeout) clearTimeout(scrollEndTimeout)
+			scrollEndTimeout = setTimeout(() => {
+				scrollEndTimeout = null
+				velocityY *= MOMENTUM_BOOST
+				momentumActive = true
+			}, SCROLL_END_MS)
+		}
+
+		scrollOrigin = section.getBoundingClientRect().top + window.scrollY
+		scrollBasedY = (window.scrollY - scrollOrigin) * PARALLAX_SPEED_UP
+		displayedY = scrollBasedY
+		applyTransform(displayedY)
+		rafId = requestAnimationFrame(tick)
+
+		window.addEventListener('scroll', onScroll, { passive: true })
+		return () => {
+			window.removeEventListener('scroll', onScroll)
+			if (rafId !== null) cancelAnimationFrame(rafId)
+			if (scrollEndTimeout) clearTimeout(scrollEndTimeout)
+		}
+	}, [])
+
 	return (
 		<section
 			id="about"
@@ -238,9 +340,9 @@ export function About() {
 					</span>
 				</div>
 
+				{/* Row 1: 10+ left, bio right */}
 				<div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
-					{/* Large number: starts lower so ~50% visible; rest reveals on scroll to next section */}
-					<div className="lg:col-span-6 flex justify-center lg:justify-start">
+					<div className="lg:col-span-6 flex items-center lg:items-start select-none">
 						<div
 							ref={numberRef}
 							className="relative will-change-transform number-offset self-start"
@@ -261,16 +363,55 @@ export function About() {
 						</div>
 					</div>
 
-					{/* Content */}
 					<div
 						ref={contentRef}
 						className="lg:col-span-5 flex flex-col justify-center"
 					>
-						<div className="space-y-6">
-							<p className="text-lg lg:text-[1.55rem] text-ink leading-[45px] text-justify">
-								{profileData.bio}
-							</p>
+						<p className="text-lg lg:text-[1.55rem] text-ink leading-[45px] text-justify">
+							{profileData.bio}
+						</p>
+					</div>
+				</div>
+
+				{/* Row 2: What I Build left, 50+ right */}
+				<div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 mt-8">
+					<div className="lg:col-span-5 flex flex-col justify-center">
+						<p
+							ref={whatIBuildRef}
+							className="text-lg lg:text-[1.55rem] text-ink leading-[45px] text-justify"
+						>
+							<span className="block text-sm text-muted uppercase tracking-widest mb-4">
+								What I Build
+							</span>
+							{profileData.whatIBuild}
+						</p>
+					</div>
+
+					<div className="lg:col-span-6 lg:col-start-7 flex flex-col items-center lg:items-end select-none">
+						<div
+							ref={projectsRef}
+							className="relative will-change-transform self-start mt-[30vh]"
+						>
+							<span className="text-[200px] md:text-[300px] font-display font-extrabold text-subtle/50 leading-none">
+								{profileData.projectsCompleted}+
+							</span>
+							<span
+								className="absolute text-sm text-muted uppercase tracking-widest whitespace-nowrap"
+								style={{
+									left: '50%',
+									top: '50%',
+									transform: 'translate(-50%, -50%)',
+								}}
+							>
+								Projects Completed
+							</span>
 						</div>
+						<p className="text-lg lg:text-[1.55rem] text-ink leading-[45px] text-justify mt-10">
+							<span className="block text-sm text-muted uppercase tracking-widest mb-4">
+								Outside of Work
+							</span>
+							{profileData.outsideOfWork}
+						</p>
 					</div>
 				</div>
 			</div>

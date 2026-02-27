@@ -83,7 +83,7 @@
 
 	/* About: taller section so 10+ can sit lower and reveal on scroll to next section */
 	.section-padding-about {
-		padding-bottom: 18vh;
+		padding-bottom: 8vh;
 	}
 
 	@media (max-width: 768px) {
