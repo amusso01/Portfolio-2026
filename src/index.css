@@ -148,6 +148,19 @@
 		margin-left: auto;
 		flex-shrink: 0;
 	}
+
+	#work .bigTitle .titleWord:nth-child(1) {
+		width: 30.5vw;
+	}
+
+	#work .bigTitle .titleWord:nth-child(2) {
+		margin-left: 6.75vw;
+	}
+
+	#work .bigTitle .titleWord:nth-child(3) {
+		margin-left: auto;
+		flex-shrink: 0;
+	}
 }
 
 @layer utilities {
