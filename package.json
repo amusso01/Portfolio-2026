@@ -13,6 +13,7 @@
 		"clean": "rm -rf node_modules yarn.lock"
 	},
 	"dependencies": {
+		"@marsidev/react-turnstile": "^1.4.2",
 		"@studio-freight/react-lenis": "^0.0.47",
 		"clsx": "^2.1.1",
 		"gsap": "^3.14.2",
