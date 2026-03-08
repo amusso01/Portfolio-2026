@@ -6,8 +6,8 @@
  * Layout: Big split-word title (GET IN TOUCH) with scroll-driven middle word;
  * two-column grid: left = CTA copy, email link, socials; right = contact form.
  *
- * Form: name, email, budget, project description. Simulates submission (setTimeout).
- * In production, wire to backend/API or form service (Formspree, Netlify, etc.).
+ * Form: name, email, budget, project description.
+ * Submits via POST /api/contact (Cloudflare Worker + Resend), protected by Turnstile.
  *
  * ANIMATIONS:
  * - Title: scroll-driven horizontal translate on "IN" (momentum/lerp)
@@ -18,6 +18,7 @@ import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { Send } from 'lucide-react'
+import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile'
 import profileData from '../data/profile.json'
 import { SocialLinks } from './SocialLinks'
 import { Magnetic } from './Magnetic'
@@ -39,17 +40,21 @@ const budgetOptions = [
 	{ value: 'over-5000', label: 'Over £5,000' },
 ]
 
+const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY as string
+
 export function Contact() {
 	const sectionRef = useRef<HTMLDivElement>(null)
 	const movingWordRef = useRef<HTMLSpanElement>(null)
 	const emailRef = useRef<HTMLAnchorElement>(null)
 	const formRef = useRef<HTMLFormElement>(null)
+	const turnstileRef = useRef<TurnstileInstance>(null)
 	const [formData, setFormData] = useState<FormData>({
 		name: '',
 		email: '',
 		budget: '',
 		project: '',
 	})
+	const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
 	const [isSubmitting, setIsSubmitting] = useState(false)
 	const [submitStatus, setSubmitStatus] = useState<
 		'idle' | 'success' | 'error'
@@ -66,20 +71,38 @@ export function Contact() {
 		}))
 	}
 
-	const handleSubmit = (e: React.FormEvent) => {
+	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault()
+
+		if (!turnstileToken) {
+			setSubmitStatus('error')
+			return
+		}
+
 		setIsSubmitting(true)
 		setSubmitStatus('idle')
-		/* TODO: Replace with real API/form service (Formspree, Netlify, custom backend) */
-		setTimeout(() => {
-			// Reset form
-			setFormData({ name: '', email: '', budget: '', project: '' })
-			setIsSubmitting(false)
-			setSubmitStatus('success')
 
-			// Clear success message after 3 seconds
-			setTimeout(() => setSubmitStatus('idle'), 3000)
-		}, 1000)
+		try {
+			const res = await fetch('/api/contact', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ ...formData, turnstileToken }),
+			})
+
+			if (res.ok) {
+				setFormData({ name: '', email: '', budget: '', project: '' })
+				setSubmitStatus('success')
+				setTurnstileToken(null)
+				turnstileRef.current?.reset()
+				setTimeout(() => setSubmitStatus('idle'), 3000)
+			} else {
+				setSubmitStatus('error')
+			}
+		} catch {
+			setSubmitStatus('error')
+		} finally {
+			setIsSubmitting(false)
+		}
 	}
 
 	useEffect(() => {
@@ -286,11 +309,22 @@ export function Contact() {
 							</div>
 
 							<div className="form-field">
+								{TURNSTILE_SITE_KEY && (
+									<Turnstile
+										ref={turnstileRef}
+										siteKey={TURNSTILE_SITE_KEY}
+										onSuccess={setTurnstileToken}
+										onExpire={() => setTurnstileToken(null)}
+										options={{ theme: 'light', size: 'flexible' }}
+										className="mb-4"
+									/>
+								)}
+
 								<div className="w-full [&>div]:block [&>div]:w-full">
 									<Magnetic strength={0.2} bounds={0.4}>
 										<button
 											type="submit"
-											disabled={isSubmitting}
+											disabled={isSubmitting || !turnstileToken}
 											className="w-full py-4 bg-ink text-white font-body font-medium text-lg flex items-center justify-center gap-2 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
 										>
 											{isSubmitting ? (
@@ -308,6 +342,12 @@ export function Contact() {
 								{submitStatus === 'success' && (
 									<p className="text-accent font-body font-medium">
 										Message sent successfully! I&apos;ll get back to you soon.
+									</p>
+								)}
+
+								{submitStatus === 'error' && (
+									<p className="text-red-500 font-body font-medium">
+										Something went wrong. Please try again.
 									</p>
 								)}
 							</div>
