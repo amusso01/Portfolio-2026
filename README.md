@@ -1,50 +1,107 @@
-# React + TypeScript + Vite
+# Andrea Musso – Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Personal portfolio site for **Andrea Musso**, Senior Web Developer. A single-page application showcasing experience in e-commerce, Shopify, WordPress, and front-end development.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- **Smooth scrolling** – [React Lenis](https://github.com/studio-freight/react-lenis) for fluid scroll
+- **Animations** – GSAP-driven hero and section transitions
+- **Responsive** – Mobile-first layout with dedicated mobile navigation
+- **Sections** – Hero, About, Work, Skills, Services, Contact
+- **Deployment** – Static build deployed to [Cloudflare Pages](https://pages.cloudflare.com/) via Wrangler
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+---
 
-- Configure the top-level `parserOptions` property like this:
+## Tech Stack
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+| Category   | Stack |
+| ---------- | ----- |
+| Framework  | React 18, TypeScript |
+| Build      | Vite 6 |
+| Styling    | Tailwind CSS, tailwindcss-animate |
+| Animation  | GSAP, React Lenis |
+| Icons      | Lucide React |
+| Deploy     | Cloudflare Pages (Wrangler) |
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) (LTS recommended)
+- [Yarn](https://yarnpkg.com/) (v1)
+
+### Install
+
+```bash
+yarn install
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### Develop
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```bash
+yarn dev
 ```
+
+Runs the app at `http://localhost:5173` with hot reload.
+
+### Build
+
+```bash
+yarn build
+```
+
+Output is in `dist/`. For production-optimized build:
+
+```bash
+yarn build:prod
+```
+
+### Preview production build
+
+```bash
+yarn preview
+```
+
+### Deploy to Cloudflare Pages
+
+```bash
+yarn deploy
+```
+
+Uses Wrangler to deploy the `dist/` folder as static assets with SPA fallback.
+
+---
+
+## Project Structure
+
+```
+src/
+├── App.tsx              # Root layout, Lenis wrapper, section order
+├── main.tsx             # Entry point
+├── components/          # Hero, About, Work, Skills, Services, Contact, Navigation, etc.
+├── hooks/               # useHeroAnimations, use-mobile, etc.
+└── ...
+```
+
+---
+
+## Scripts
+
+| Command         | Description |
+| --------------- | ----------- |
+| `yarn dev`      | Start dev server |
+| `yarn build`    | TypeScript + Vite build |
+| `yarn build:prod` | Production build |
+| `yarn preview`  | Preview production build |
+| `yarn deploy`   | Deploy to Cloudflare Pages |
+| `yarn lint`     | Run ESLint |
+
+---
+
+## License
+
+Private – All rights reserved.
