@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-<!--
+	<!--
   =============================================================================
   PORTFOLIO SITE - HTML ENTRY POINT
   =============================================================================
@@ -13,25 +13,47 @@
   3. main.tsx bootstraps React and mounts the app into #root
   =============================================================================
 -->
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&family=Space+Grotesk:wght@300..700&display=swap" />
-  <title>Andrea Musso – Senior Web Developer</title>
-  <meta name="description" content="Building Digital Commerce Experiences. Web developer with 10+ years experience in e-commerce, Shopify, WordPress, and front-end development. Based in London, UK. Available for freelance." />
-  <link rel="icon" href="/favicon.ico" sizes="any" />
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="Andrea Musso – Senior Web Developer" />
-  <meta property="og:description" content="Building Digital Commerce Experiences. Web developer with 10+ years experience in e-commerce, Shopify, WordPress, and front-end. London, UK." />
-</head>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&family=Space+Grotesk:wght@300..700&display=swap"
+		/>
+		<title>Andrea Musso – Senior Web Developer</title>
+		<meta
+			name="description"
+			content="Building Digital Commerce Experiences. Web developer with 10+ years experience in e-commerce, Shopify, WordPress, and front-end development. Based in London, UK. Available for freelance."
+		/>
+		<link
+			rel="icon"
+			type="image/png"
+			href="%PUBLIC_URL%/favicon-96x96.png"
+			sizes="96x96"
+		/>
+		<link rel="icon" type="image/svg+xml" href="%PUBLIC_URL%/favicon.svg" />
+		<link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
+		<link
+			rel="apple-touch-icon"
+			sizes="180x180"
+			href="%PUBLIC_URL%/apple-touch-icon.png"
+		/>
+		<meta name="apple-mobile-web-app-title" content="AM Site" />
+		<link rel="manifest" href="%PUBLIC_URL%/site.webmanifest" />
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content="Andrea Musso – Senior Web Developer" />
+		<meta
+			property="og:description"
+			content="Building Digital Experiences. Web developer with 10+ years experience in e-commerce, Shopify, WordPress, and front-end development. London, UK."
+		/>
+	</head>
 
-<body>
-  <!-- React app mounts here - createRoot() attaches to this div -->
-  <div id="root"></div>
-  <!-- type="module" enables ES6 imports; Vite resolves /src/main.tsx -->
-  <script type="module" src="/src/main.tsx"></script>
-</body>
-
+	<body>
+		<!-- React app mounts here - createRoot() attaches to this div -->
+		<div id="root"></div>
+		<!-- type="module" enables ES6 imports; Vite resolves /src/main.tsx -->
+		<script type="module" src="/src/main.tsx"></script>
+	</body>
 </html>
