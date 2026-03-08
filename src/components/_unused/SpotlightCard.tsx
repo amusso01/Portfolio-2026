@@ -9,7 +9,7 @@
  *
  * Not currently used in the main app - available for card/CTA components.
  */
-import { useRef, useState, ReactNode, MouseEvent } from 'react';
+import { useRef, ReactNode, MouseEvent } from 'react';
 import { gsap } from 'gsap';
 
 interface SpotlightCardProps {
@@ -26,7 +26,6 @@ export function SpotlightCard({
   borderRadius = '16px',
 }: SpotlightCardProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const [isHovered, setIsHovered] = useState(false);
   const spotlightRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
@@ -51,7 +50,7 @@ export function SpotlightCard({
   };
 
   const handleMouseLeave = () => {
-    setIsHovered(false);
+    if (!spotlightRef.current) return;
     gsap.to(spotlightRef.current, {
       opacity: 0,
       duration: 0.3,
@@ -59,16 +58,11 @@ export function SpotlightCard({
     });
   };
 
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-
   return (
     <div
       ref={ref}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      onMouseEnter={handleMouseEnter}
       className={`${className} relative overflow-hidden`}
       style={{ borderRadius }}
     >

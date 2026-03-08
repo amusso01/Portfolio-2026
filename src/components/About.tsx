@@ -17,26 +17,9 @@ import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import profileData from '../data/profile.json'
+import { useScrollMomentum } from '../hooks/useScrollMomentum'
 
 gsap.registerPlugin(ScrollTrigger)
-
-// SCROLL_SPEED: How fast the animated word moves in response to scroll (higher = faster)
-const SCROLL_SPEED = 0.15
-// LERP: Smoothing factor for scroll-driven position (0 = no follow, 1 = instant). Higher = snappier.
-const LERP = 0.08
-// MOMENTUM_FRICTION: Decay per frame (closer to 1 = longer glide after you stop)
-const MOMENTUM_FRICTION = 0.95
-// MOMENTUM_BOOST: Multiply scroll velocity when entering momentum so it continues a bit more
-const MOMENTUM_BOOST = 1.4
-// MOMENTUM_THRESHOLD: Stop momentum when velocity is below this
-const MOMENTUM_THRESHOLD = 0.04
-// SCROLL_END_MS: Wait after last scroll before starting momentum
-const SCROLL_END_MS = 120
-
-// Parallax for the number: vertical movement factor (0 = no move, 1 = 1:1 with scroll)
-const PARALLAX_SPEED = 0.22
-// Reverse parallax for projects number (negative = moves up when scrolling down)
-const PARALLAX_SPEED_UP = -0.1
 
 export function About() {
 	const sectionRef = useRef<HTMLDivElement>(null)
@@ -44,6 +27,7 @@ export function About() {
 	const projectsRef = useRef<HTMLDivElement>(null)
 	const contentRef = useRef<HTMLDivElement>(null)
 	const whatIBuildRef = useRef<HTMLParagraphElement>(null)
+	const outsideWorkRef = useRef<HTMLParagraphElement>(null)
 	const movingWordRef = useRef<HTMLSpanElement>(null)
 
 	useEffect(() => {
@@ -111,212 +95,50 @@ export function About() {
 					},
 				)
 			}
+
+			if (outsideWorkRef.current) {
+				gsap.fromTo(
+					outsideWorkRef.current,
+					{ opacity: 0, y: 30 },
+					{
+						opacity: 1,
+						y: 0,
+						duration: 0.55,
+						ease: 'power2.in',
+						scrollTrigger: {
+							trigger: outsideWorkRef.current,
+							start: 'top 95%',
+							toggleActions: 'play none none reverse',
+						},
+					},
+				)
+			}
 		}, sectionRef)
 
 		return () => ctx.revert()
 	}, [])
 
-	/* Scroll-driven horizontal translate for second title word, with smoothing + friction/momentum */
-	useEffect(() => {
-		const el = movingWordRef.current
-		const section = sectionRef.current
-		if (!el || !section) return
+	const ABOUT_PHYSICS = {
+		lerp: 0.06,
+		friction: 0.96,
+		boost: 1.2,
+		scrollEndMs: 80,
+	} as const
 
-		let lastScrollY = window.scrollY
-		let scrollOrigin = section.getBoundingClientRect().top + window.scrollY
-		let scrollBasedX = 0
-		let momentumX = 0
-		let velocityX = 0
-		let displayedX = 0
-		let momentumActive = false
-		let rafId: number | null = null
-		let scrollEndTimeout: ReturnType<typeof setTimeout> | null = null
-
-		function applyTransform(x: number) {
-			el.style.transform = `translate3d(${x}px, 0, 0)`
-		}
-
-		function tick() {
-			if (momentumActive) {
-				momentumX += velocityX
-				velocityX *= MOMENTUM_FRICTION
-				if (Math.abs(velocityX) < MOMENTUM_THRESHOLD) {
-					velocityX = 0
-					momentumActive = false
-				}
-			}
-			const targetX = scrollBasedX + momentumX
-			displayedX += (targetX - displayedX) * LERP
-			applyTransform(displayedX)
-			rafId = requestAnimationFrame(tick)
-		}
-
-		function onScroll() {
-			const scrollY = window.scrollY
-			const deltaY = scrollY - lastScrollY
-
-			scrollOrigin = section.getBoundingClientRect().top + window.scrollY
-			scrollBasedX = (scrollY - scrollOrigin) * SCROLL_SPEED
-			velocityX = deltaY * SCROLL_SPEED
-			lastScrollY = scrollY
-			momentumActive = false
-
-			if (scrollEndTimeout) clearTimeout(scrollEndTimeout)
-			scrollEndTimeout = setTimeout(() => {
-				scrollEndTimeout = null
-				velocityX *= MOMENTUM_BOOST
-				momentumActive = true
-			}, SCROLL_END_MS)
-		}
-
-		/* Initial position and start smooth loop */
-		scrollOrigin = section.getBoundingClientRect().top + window.scrollY
-		scrollBasedX = (window.scrollY - scrollOrigin) * SCROLL_SPEED
-		displayedX = scrollBasedX
-		applyTransform(displayedX)
-		rafId = requestAnimationFrame(tick)
-
-		window.addEventListener('scroll', onScroll, { passive: true })
-		return () => {
-			window.removeEventListener('scroll', onScroll)
-			if (rafId !== null) cancelAnimationFrame(rafId)
-			if (scrollEndTimeout) clearTimeout(scrollEndTimeout)
-		}
-	}, [])
-
-	/* Parallax + momentum for the years number (same feel as OUT word) */
-	useEffect(() => {
-		const el = numberRef.current
-		const section = sectionRef.current
-		if (!el || !section) return
-
-		let lastScrollY = window.scrollY
-		let scrollOrigin = section.getBoundingClientRect().top + window.scrollY
-		let scrollBasedY = 0
-		let momentumY = 0
-		let velocityY = 0
-		let displayedY = 0
-		let momentumActive = false
-		let rafId: number | null = null
-		let scrollEndTimeout: ReturnType<typeof setTimeout> | null = null
-
-		function applyTransform(y: number) {
-			el.style.transform = `translate3d(0, ${y}px, 0) scale(1)`
-		}
-
-		function tick() {
-			if (momentumActive) {
-				momentumY += velocityY
-				velocityY *= MOMENTUM_FRICTION
-				if (Math.abs(velocityY) < MOMENTUM_THRESHOLD) {
-					velocityY = 0
-					momentumActive = false
-				}
-			}
-			const targetY = scrollBasedY + momentumY
-			displayedY += (targetY - displayedY) * LERP
-			applyTransform(displayedY)
-			rafId = requestAnimationFrame(tick)
-		}
-
-		function onScroll() {
-			const scrollY = window.scrollY
-			const deltaY = scrollY - lastScrollY
-
-			scrollOrigin = section.getBoundingClientRect().top + window.scrollY
-			scrollBasedY = (scrollY - scrollOrigin) * PARALLAX_SPEED
-			velocityY = deltaY * PARALLAX_SPEED
-			lastScrollY = scrollY
-			momentumActive = false
-
-			if (scrollEndTimeout) clearTimeout(scrollEndTimeout)
-			scrollEndTimeout = setTimeout(() => {
-				scrollEndTimeout = null
-				velocityY *= MOMENTUM_BOOST
-				momentumActive = true
-			}, SCROLL_END_MS)
-		}
-
-		scrollOrigin = section.getBoundingClientRect().top + window.scrollY
-		scrollBasedY = (window.scrollY - scrollOrigin) * PARALLAX_SPEED
-		displayedY = scrollBasedY
-		applyTransform(displayedY)
-		rafId = requestAnimationFrame(tick)
-
-		window.addEventListener('scroll', onScroll, { passive: true })
-		return () => {
-			window.removeEventListener('scroll', onScroll)
-			if (rafId !== null) cancelAnimationFrame(rafId)
-			if (scrollEndTimeout) clearTimeout(scrollEndTimeout)
-		}
-	}, [])
-
-	/* Reverse parallax + momentum for the projects number (moves UP on scroll down) */
-	useEffect(() => {
-		const el = projectsRef.current
-		const section = sectionRef.current
-		if (!el || !section) return
-
-		let lastScrollY = window.scrollY
-		let scrollOrigin = section.getBoundingClientRect().top + window.scrollY
-		let scrollBasedY = 0
-		let momentumY = 0
-		let velocityY = 0
-		let displayedY = 0
-		let momentumActive = false
-		let rafId: number | null = null
-		let scrollEndTimeout: ReturnType<typeof setTimeout> | null = null
-
-		function applyTransform(y: number) {
-			el.style.transform = `translate3d(0, ${y}px, 0) scale(1)`
-		}
-
-		function tick() {
-			if (momentumActive) {
-				momentumY += velocityY
-				velocityY *= MOMENTUM_FRICTION
-				if (Math.abs(velocityY) < MOMENTUM_THRESHOLD) {
-					velocityY = 0
-					momentumActive = false
-				}
-			}
-			const targetY = scrollBasedY + momentumY
-			displayedY += (targetY - displayedY) * LERP
-			applyTransform(displayedY)
-			rafId = requestAnimationFrame(tick)
-		}
-
-		function onScroll() {
-			const scrollY = window.scrollY
-			const deltaY = scrollY - lastScrollY
-
-			scrollOrigin = section.getBoundingClientRect().top + window.scrollY
-			scrollBasedY = (scrollY - scrollOrigin) * PARALLAX_SPEED_UP
-			velocityY = deltaY * PARALLAX_SPEED_UP
-			lastScrollY = scrollY
-			momentumActive = false
-
-			if (scrollEndTimeout) clearTimeout(scrollEndTimeout)
-			scrollEndTimeout = setTimeout(() => {
-				scrollEndTimeout = null
-				velocityY *= MOMENTUM_BOOST
-				momentumActive = true
-			}, SCROLL_END_MS)
-		}
-
-		scrollOrigin = section.getBoundingClientRect().top + window.scrollY
-		scrollBasedY = (window.scrollY - scrollOrigin) * PARALLAX_SPEED_UP
-		displayedY = scrollBasedY
-		applyTransform(displayedY)
-		rafId = requestAnimationFrame(tick)
-
-		window.addEventListener('scroll', onScroll, { passive: true })
-		return () => {
-			window.removeEventListener('scroll', onScroll)
-			if (rafId !== null) cancelAnimationFrame(rafId)
-			if (scrollEndTimeout) clearTimeout(scrollEndTimeout)
-		}
-	}, [])
+	useScrollMomentum(movingWordRef, sectionRef, {
+		speed: 0.15,
+		...ABOUT_PHYSICS,
+	})
+	useScrollMomentum(numberRef, sectionRef, {
+		axis: 'y',
+		speed: 0.22,
+		...ABOUT_PHYSICS,
+	})
+	useScrollMomentum(projectsRef, sectionRef, {
+		axis: 'y',
+		speed: -0.1,
+		...ABOUT_PHYSICS,
+	})
 
 	return (
 		<section
@@ -374,7 +196,7 @@ export function About() {
 				</div>
 
 				{/* Row 2: What I Build left, 50+ right */}
-				<div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 mt-8">
+				<div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
 					<div className="lg:col-span-5 flex flex-col justify-center">
 						<p
 							ref={whatIBuildRef}
@@ -406,7 +228,10 @@ export function About() {
 								Projects Completed
 							</span>
 						</div>
-						<p className="text-lg lg:text-[1.55rem] text-ink leading-[45px] text-justify mt-10">
+						<p
+							ref={outsideWorkRef}
+							className="text-lg lg:text-[1.55rem] text-ink leading-[45px] text-justify mt-10"
+						>
 							<span className="block text-sm text-muted uppercase tracking-widest mb-4">
 								Outside of Work
 							</span>

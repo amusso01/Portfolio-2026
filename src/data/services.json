@@ -1,0 +1,22 @@
+[
+	{
+		"id": "design",
+		"title": "Design",
+		"description": "Crafting thoughtful, intuitive interfaces that work hand-in-hand with solid code. Every layout, colour choice, and interaction is purposeful — designed to feel natural for users while staying true to your brand identity."
+	},
+	{
+		"id": "development",
+		"title": "Development",
+		"description": "Building fast, interactive websites with clean code and real attention to detail. From animated storefronts to complex custom platforms, every build is hand-coded to fit the brief — no cookie-cutter templates, no shortcuts."
+	},
+	{
+		"id": "digital-advice",
+		"title": "Digital advice",
+		"description": "Not sure where to start with a digital project? I help untangle the technical side — choosing the right platforms, spotting potential pitfalls, and mapping out a clear path forward so nothing gets lost in translation."
+	},
+	{
+		"id": "project-management",
+		"title": "Project management",
+		"description": "Keeping things organised, on track, and stress-free. I coordinate timelines, align teams, and handle the day-to-day logistics so you can focus on the bigger picture while everything runs smoothly behind the scenes."
+	}
+]

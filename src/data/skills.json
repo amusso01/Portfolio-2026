@@ -1,44 +1,16 @@
 {
-  "categories": [
-    {
-      "name": "E-commerce Platforms",
-      "icon": "ShoppingCart",
-      "skills": [
-        { "name": "Shopify Plus", "level": 95 },
-        { "name": "Shopify Liquid", "level": 95 },
-        { "name": "WooCommerce", "level": 90 },
-        { "name": "WooCommerce Plugins", "level": 90 }
-      ]
-    },
-    {
-      "name": "Custom Development",
-      "icon": "Code",
-      "skills": [
-        { "name": "Shopify Apps", "level": 90 },
-        { "name": "WooCommerce Plugins", "level": 90 },
-        { "name": "REST APIs", "level": 85 },
-        { "name": "GraphQL", "level": 80 }
-      ]
-    },
-    {
-      "name": "Animation",
-      "icon": "Sparkles",
-      "skills": [
-        { "name": "GSAP", "level": 95 },
-        { "name": "React Spring", "level": 85 },
-        { "name": "Framer Motion", "level": 80 },
-        { "name": "Three.js", "level": 70 }
-      ]
-    },
-    {
-      "name": "Tech Stack",
-      "icon": "Layers",
-      "skills": [
-        { "name": "React", "level": 95 },
-        { "name": "Node.js", "level": 90 },
-        { "name": "TypeScript", "level": 90 },
-        { "name": "PHP", "level": 85 }
-      ]
-    }
-  ]
+	"techStack": [
+		"HTML",
+		"CSS",
+		"SCSS",
+		"JavaScript",
+		"React",
+		"Alpine",
+		"Remix",
+		"Tailwind CSS",
+		"GSAP",
+		"PHP",
+		"Shopify",
+		"WordPress"
+	]
 }

@@ -13,8 +13,22 @@
  * strength: how strongly the element follows (default 0.3)
  * bounds: multiplier for max displacement (default 0.5)
  */
-import { useRef, useState, ReactNode, MouseEvent } from 'react';
+import { useRef, useState, useEffect, ReactNode, MouseEvent } from 'react';
 import { gsap } from 'gsap';
+
+function useHasHover() {
+  const [hasHover, setHasHover] = useState(true);
+
+  useEffect(() => {
+    const mql = window.matchMedia('(hover: hover)');
+    setHasHover(mql.matches);
+    const onChange = (e: MediaQueryListEvent) => setHasHover(e.matches);
+    mql.addEventListener('change', onChange);
+    return () => mql.removeEventListener('change', onChange);
+  }, []);
+
+  return hasHover;
+}
 
 interface MagneticProps {
   children: ReactNode;
@@ -24,10 +38,10 @@ interface MagneticProps {
 
 export function Magnetic({ children, strength = 0.3, bounds = 0.5 }: MagneticProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const [isHovered, setIsHovered] = useState(false);
+  const hasHover = useHasHover();
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
-    if (!ref.current) return;
+    if (!hasHover || !ref.current) return;
     const { left, top, width, height } = ref.current.getBoundingClientRect();
     const centerX = left + width / 2;
     const centerY = top + height / 2;
@@ -47,7 +61,7 @@ export function Magnetic({ children, strength = 0.3, bounds = 0.5 }: MagneticPro
   };
 
   const handleMouseLeave = () => {
-    setIsHovered(false);
+    if (!hasHover || !ref.current) return;
     gsap.to(ref.current, {
       x: 0,
       y: 0,
@@ -56,16 +70,11 @@ export function Magnetic({ children, strength = 0.3, bounds = 0.5 }: MagneticPro
     });
   };
 
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-
   return (
     <div
       ref={ref}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      onMouseEnter={handleMouseEnter}
       className="inline-block"
     >
       {children}

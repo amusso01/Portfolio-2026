@@ -6,86 +6,26 @@
  * NAVIGATION (desktop):
  * - Fixed bottom pill (hidden on mobile: hidden md:block)
  * - Uses Magnetic for hover effect on nav items
- * - Active section tracked via scroll listener (which section top is near viewport top)
- * - GSAP ScrollToPlugin for smooth scroll to section on click
+ * - Active section and scroll-to logic from useActiveSection / useScrollToSection
  *
  * MOBILENAVIGATION (mobile):
  * - Fixed top bar (shown only on mobile: md:hidden)
- * - Same section tracking and scroll-to logic
- *
- * navItems maps labels to #hero, #about, #skills, #work, #contact.
+ * - Same section tracking and scroll-to logic with different header offset
  */
-import { useState, useEffect, useRef, MouseEvent } from 'react'
+import { MouseEvent } from 'react'
 import { Magnetic } from './Magnetic'
-import { gsap } from 'gsap'
-import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
+import {
+	navItems,
+	useActiveSection,
+	useScrollToSection,
+} from '../hooks/useNavigation'
 
-gsap.registerPlugin(ScrollToPlugin)
-
-interface NavItem {
-	label: string
-	href: string
-}
-
-const navItems: NavItem[] = [
-	{ label: 'Hero', href: '#hero' },
-	{ label: 'About', href: '#about' },
-	{ label: 'Skills', href: '#skills' },
-	{ label: 'Work', href: '#work' },
-	{ label: 'Contact', href: '#contact' },
-]
+const DESKTOP_HEADER_OFFSET = 80
+const MOBILE_HEADER_OFFSET = 100
 
 export function Navigation() {
-	const [activeSection, setActiveSection] = useState('hero')
-	const isScrollingRef = useRef(false)
-	const scrollTimeoutRef = useRef<number | null>(null)
-
-	useEffect(() => {
-		const handleScroll = () => {
-			const sections = navItems.map((item) => item.href.slice(1))
-
-			for (const section of sections.reverse()) {
-				const element = document.getElementById(section)
-				if (element) {
-					const rect = element.getBoundingClientRect()
-					if (rect.top <= 150) {
-						setActiveSection(section)
-						break
-					}
-				}
-			}
-		}
-
-		window.addEventListener('scroll', handleScroll)
-		return () => window.removeEventListener('scroll', handleScroll)
-	}, [])
-
-	const scrollToSection = (href: string) => {
-		// Prevent multiple rapid clicks
-		if (isScrollingRef.current) {
-			return
-		}
-
-		const element = document.querySelector(href)
-		if (element) {
-			isScrollingRef.current = true
-			if (scrollTimeoutRef.current) {
-				window.clearTimeout(scrollTimeoutRef.current)
-			}
-			/* GSAP ScrollToPlugin: smooth scroll to section */
-			const targetTop = element.getBoundingClientRect().top + window.scrollY
-			const headerOffset = 80
-
-			gsap.to(window, {
-				scrollTo: { y: targetTop - headerOffset, autoKill: false },
-				duration: 0.8,
-				ease: 'power2.inOut',
-				onComplete: () => {
-					isScrollingRef.current = false
-				},
-			})
-		}
-	}
+	const activeSection = useActiveSection()
+	const scrollToSection = useScrollToSection(DESKTOP_HEADER_OFFSET)
 
 	const handleNavClick = (e: MouseEvent<HTMLButtonElement>, href: string) => {
 		e.preventDefault()
@@ -110,7 +50,7 @@ export function Navigation() {
 						>
 							{item.label}
 							{activeSection === item.href.slice(1) && (
-								<span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-accent rounded-full" />
+								<span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-selection rounded-full" />
 							)}
 						</button>
 					</Magnetic>
@@ -121,47 +61,8 @@ export function Navigation() {
 }
 
 export function MobileNavigation() {
-	const [activeSection, setActiveSection] = useState('hero')
-	const isScrollingRef = useRef(false)
-
-	useEffect(() => {
-		const handleScroll = () => {
-			const sections = navItems.map((item) => item.href.slice(1))
-
-			for (const section of sections.reverse()) {
-				const element = document.getElementById(section)
-				if (element) {
-					const rect = element.getBoundingClientRect()
-					if (rect.top <= 150) {
-						setActiveSection(section)
-						break
-					}
-				}
-			}
-		}
-
-		window.addEventListener('scroll', handleScroll)
-		return () => window.removeEventListener('scroll', handleScroll)
-	}, [])
-
-	const scrollToSection = (href: string) => {
-		if (isScrollingRef.current) return
-		const element = document.querySelector(href)
-		if (element) {
-			isScrollingRef.current = true
-			const targetTop = element.getBoundingClientRect().top + window.scrollY
-			const headerOffset = 100 /* Mobile header height */
-
-			gsap.to(window, {
-				scrollTo: { y: targetTop - headerOffset, autoKill: false },
-				duration: 0.8,
-				ease: 'power2.inOut',
-				onComplete: () => {
-					isScrollingRef.current = false
-				},
-			})
-		}
-	}
+	const activeSection = useActiveSection()
+	const scrollToSection = useScrollToSection(MOBILE_HEADER_OFFSET)
 
 	const handleNavClick = (e: MouseEvent<HTMLButtonElement>, href: string) => {
 		e.preventDefault()

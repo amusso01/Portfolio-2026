@@ -22,6 +22,7 @@ module.exports = {
 			colors: {
 				canvas: '#FAFAFA',
 				ink: '#101110',
+				selection: '#f7924e',
 				accent: '#97F093',
 				subtle: '#E5E5E5',
 				muted: '#6B7280',

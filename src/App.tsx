@@ -15,7 +15,7 @@
  * 1. TopHeader - Fixed header with location, time, name, availability
  * 2. Navigation - Fixed bottom pill (desktop)
  * 3. MobileNavigation - Fixed top bar (mobile only)
- * 4. main - Scrollable content: Hero → About → Skills → Work → Contact
+ * 4. main - Scrollable content: Hero → About → Work → Skills → Services → Contact
  *
  */
 import { ReactLenis } from '@studio-freight/react-lenis'
@@ -24,6 +24,7 @@ import { TopHeader } from './components/TopHeader'
 import { Hero } from './components/Hero'
 import { About } from './components/About'
 import { Skills } from './components/Skills'
+import { Services } from './components/Services'
 import { Work } from './components/Work'
 import { Contact } from './components/Contact'
 
@@ -47,6 +48,7 @@ function App() {
 				<About />
 				<Work />
 				<Skills />
+				<Services />
 				<Contact />
 			</main>
 		</ReactLenis>

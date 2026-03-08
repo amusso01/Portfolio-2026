@@ -50,15 +50,15 @@ export function Hero() {
 		>
 			{/* Main content area - Full width, closer to edges */}
 			<div className="flex-1 px-8 md:px-16 container-custom flex items-center pt-8 pb-8">
-				<div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-8 w-full items-center">
+				<div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 w-full items-center">
 					{/* Left side - Text content */}
 					<div
 						ref={contentRef}
-						className=" md:col-span-8 lg:col-span-7 order-2 lg:order-1"
+						className="md:col-span-8 lg:col-span-7 order-2 md:order-1"
 					>
 						<h2
 							data-hello-container
-							className="text-hero-mobile lg:text-[120px] xl:text-hero 2xl:text-[220px] font-display text-ink pb-5 cursor-default"
+							className="text-hero-mobile md:text-[90px] lg:text-[120px] xl:text-hero 2xl:text-[220px] font-display text-ink pb-5 cursor-default"
 						>
 							{HELLO_CHARS.map((char, i) => (
 								<span
@@ -96,11 +96,11 @@ export function Hero() {
 					{/* Right side - Image */}
 					<div
 						ref={imageRef}
-						className="md:col-span-4 lg:col-span-5 order-1 lg:order-2 flex justify-center lg:justify-end"
+						className="md:col-span-4 lg:col-span-5 order-1 md:order-2 flex justify-center lg:justify-end"
 					>
 						<div
 							ref={imageClipRef}
-							className="relative w-full max-w-sm aspect-[3/4] overflow-hidden rounded-sm"
+							className="relative w-full max-w-sm md:max-w-md aspect-[3/4] overflow-hidden rounded-sm"
 						>
 							<img
 								src={PLACEHOLDER_IMAGE}

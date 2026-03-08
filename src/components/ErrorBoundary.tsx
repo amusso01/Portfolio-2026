@@ -18,7 +18,7 @@
 import React from 'react'
 
 /** Converts any error to a readable string for display in the fallback UI */
-const searilizeError = (error: any) => {
+const serializeError = (error: unknown): string => {
 	if (error instanceof Error) {
 		return error.message + '\n' + error.stack
 	}
@@ -45,7 +45,7 @@ export class ErrorBoundary extends React.Component<
 			return (
 				<div className="p-4 border border-red-500 rounded">
 					<h2 className="text-red-500">Something went wrong.</h2>
-					<pre className="mt-2 text-sm">{searilizeError(this.state.error)}</pre>
+					<pre className="mt-2 text-sm">{serializeError(this.state.error)}</pre>
 				</div>
 			)
 		}

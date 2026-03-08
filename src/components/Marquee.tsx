@@ -15,7 +15,7 @@ function RotatingPlus({ index }: { index: number }) {
 	const delay = -(index * 0.5) // negative = start partway through cycle
 	return (
 		<svg
-			className="w-5 h-5 text-accent animate-spin-slow"
+			className="w-5 h-5 text-selection animate-spin-slow"
 			style={{ animationDelay: `${delay}s` }}
 			viewBox="0 0 24 24"
 			fill="none"
@@ -116,7 +116,7 @@ export function Marquee() {
 			>
 				{items.map((item, index) => (
 					<div key={index} className="flex items-center gap-8 shrink-0">
-						<span className="text-xl font-light uppercase tracking-[15%] whitespace-nowrap">
+						<span className="text-base md:text-xl font-light uppercase tracking-[15%] whitespace-nowrap">
 							{item}
 						</span>
 						<RotatingPlus index={index} />

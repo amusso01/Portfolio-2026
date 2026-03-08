@@ -4,8 +4,8 @@
    Fonts: Space Grotesk (body), Alexandria (headings)
    Tailwind layers: base (reset, typography), components (reusable), utilities
    Lenis: styles required for smooth scroll library
+   Fonts: loaded via <link> in index.html for faster loading
    ============================================================================= */
-@import url('https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&family=Space+Grotesk:wght@300..700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -160,6 +160,44 @@
 	#work .bigTitle .titleWord:nth-child(3) {
 		margin-left: auto;
 		flex-shrink: 0;
+	}
+
+	#contact .bigTitle .titleWord:nth-child(1) {
+		width: 28vw;
+		min-width: 4ch;
+	}
+
+	#contact .bigTitle .titleWord:nth-child(2) {
+		margin-left: 4vw;
+	}
+
+	#contact .bigTitle .titleWord:nth-child(3) {
+		margin-left: auto;
+		flex-shrink: 0;
+	}
+
+	/* Contact form placeholders: faint grey (CSS for reliable styling) */
+	#contact input::placeholder,
+	#contact textarea::placeholder {
+		color: rgba(107, 114, 128, 0.5);
+	}
+	#contact input::-webkit-input-placeholder,
+	#contact textarea::-webkit-input-placeholder {
+		color: rgba(107, 114, 128, 0.5);
+	}
+	#contact input::-moz-placeholder,
+	#contact textarea::-moz-placeholder {
+		color: rgba(107, 114, 128, 0.5);
+		opacity: 1;
+	}
+
+	/* Budget select: placeholder-like style when no value is chosen */
+	#contact select:invalid,
+	#contact select option[value=''] {
+		color: rgba(107, 114, 128, 0.5);
+	}
+	#contact select option {
+		color: #101110;
 	}
 }
 
