@@ -71,16 +71,16 @@ export function MobileNavigation() {
 
 	return (
 		<nav className="fixed top-0 left-0 right-0 z-50 md:hidden bg-white/80 backdrop-blur-xl border-b border-subtle">
-			<div className="flex items-center justify-between px-4 py-3 overflow-x-auto">
-				<span className="text-lg font-bold font-display whitespace-nowrap">
+			<div className="flex items-center justify-between px-2 py-2 overflow-x-auto">
+				<span className="text-lg font-bold font-display whitespace-nowrap shrink-0">
 					AM
 				</span>
-				<div className="flex items-center gap-1">
+				<div className="flex items-center gap-0.5 min-w-0">
 					{navItems.map((item) => (
 						<button
 							key={item.href}
 							onClick={(e) => handleNavClick(e, item.href)}
-							className={`px-3 py-1.5 text-xs font-medium transition-colors duration-300 ease-premium whitespace-nowrap ${
+							className={`px-2 py-1 text-xs font-medium transition-colors duration-300 ease-premium whitespace-nowrap ${
 								activeSection === item.href.slice(1)
 									? 'text-ink bg-subtle rounded-full'
 									: 'text-muted hover:text-ink'

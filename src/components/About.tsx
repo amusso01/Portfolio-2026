@@ -147,7 +147,7 @@ export function About() {
 			className="section-padding section-padding-about bg-canvas"
 		>
 			<div className="container-custom">
-				<div className="bigTitle text-section-mobile md:text-section xl:text-[190px] font-display font-bold mb-10">
+				<div className="bigTitle text-[48px] md:text-section xl:text-[190px] font-display font-bold mb-10">
 					<span className="titleWord inline-block overflow-hidden align-top">
 						AB
 					</span>
@@ -163,7 +163,7 @@ export function About() {
 				</div>
 
 				{/* Row 1: 10+ left, bio right */}
-				<div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
+				<div className="grid grid-cols-1 lg:grid-cols-12 gap-1 lg:gap-20 mb-10 md:mb-0">
 					<div className="lg:col-span-6 flex items-center lg:items-start select-none">
 						<div
 							ref={numberRef}
@@ -196,7 +196,7 @@ export function About() {
 				</div>
 
 				{/* Row 2: What I Build left, 50+ right */}
-				<div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
+				<div className="grid grid-cols-1 lg:grid-cols-12 gap-1 lg:gap-20 mb-10 md:mb-0">
 					<div className="lg:col-span-5 flex flex-col justify-center">
 						<p
 							ref={whatIBuildRef}
@@ -212,7 +212,7 @@ export function About() {
 					<div className="lg:col-span-6 lg:col-start-7 flex flex-col items-center lg:items-end select-none">
 						<div
 							ref={projectsRef}
-							className="relative will-change-transform self-start mt-[30vh]"
+							className="relative will-change-transform self-start mt-[15vh] md:mt-[30vh]"
 						>
 							<span className="text-[200px] md:text-[300px] font-display font-extrabold text-subtle/50 leading-none">
 								{profileData.projectsCompleted}+

@@ -189,7 +189,7 @@ export function Contact() {
 			className="section-padding bg-canvas"
 		>
 			<div className="container-custom">
-				<div className="bigTitle text-[58px] md:text-[110px] xl:text-[160px] font-display font-bold mb-16">
+				<div className="bigTitle text-[41px] md:text-[110px] xl:text-[160px] font-display font-bold mb-16">
 					<span className="titleWord inline-block overflow-hidden align-top">
 						GET
 					</span>

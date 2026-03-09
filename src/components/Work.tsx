@@ -342,7 +342,7 @@ export function Work() {
 	return (
 		<section id="work" ref={sectionRef} className="section-padding bg-canvas">
 			<div className="container-custom">
-				<div className="bigTitle text-section-mobile md:text-section xl:text-[190px] font-display font-bold mb-10">
+				<div className="bigTitle text-[45px] md:text-section xl:text-[190px] font-display font-bold mb-10">
 					<span className="titleWord inline-block overflow-hidden align-top">
 						PRO
 					</span>
