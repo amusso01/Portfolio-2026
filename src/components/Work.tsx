@@ -357,7 +357,7 @@ export function Work() {
 					</span>
 				</div>
 
-				<p className="text-muted mb-12">
+				<p className="text-[20px] md:text-xl mb-6 md:mb-12">
 					A curated selection of projects showcasing expertise in e-commerce
 					development, custom solutions, and creative animations.
 				</p>

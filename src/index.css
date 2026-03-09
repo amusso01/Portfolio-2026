@@ -183,6 +183,18 @@
 		flex-shrink: 0;
 	}
 
+	@media (max-width: 580px) {
+		.bigTitle .titleWord:nth-child(1) {
+			width: 16%;
+		}
+		.bigTitle .titleWord:nth-child(2) {
+			margin-left: 0;
+		}
+		.bigTitle .titleWord:nth-child(3) {
+			margin-left: 0;
+		}
+	}
+
 	/* Contact form placeholders: faint grey (CSS for reliable styling) */
 	#contact input::placeholder,
 	#contact textarea::placeholder {
