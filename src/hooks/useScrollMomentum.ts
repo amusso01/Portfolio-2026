@@ -8,13 +8,17 @@
  * Used for the split-word section titles (PRO-JE-CTS, AB-OUT-ME, GET-IN-TOUCH)
  * and the parallax stat numbers in About.
  */
-import { useEffect, type RefObject } from 'react'
+import { useEffect, useRef, type RefObject } from 'react'
+
+const BIGTITLE_MOBILE_BREAKPOINT = 580
 
 export interface ScrollMomentumOptions {
 	/** Axis to translate on. Default `'x'`. */
 	axis?: 'x' | 'y'
 	/** Scroll-to-pixel ratio (higher = faster movement). Default `0.15`. */
 	speed?: number
+	/** When set, used below 580px viewport for slower movement on mobile. */
+	speedMobile?: number
 	/** Smoothing factor (0 = no follow, 1 = instant). Default `0.08`. */
 	lerp?: number
 	/** Per-frame velocity decay during momentum (closer to 1 = longer glide). Default `0.95`. */
@@ -27,7 +31,7 @@ export interface ScrollMomentumOptions {
 	scrollEndMs?: number
 }
 
-const DEFAULTS: Required<ScrollMomentumOptions> = {
+const DEFAULTS: Required<Omit<ScrollMomentumOptions, 'speedMobile'>> = {
 	axis: 'x',
 	speed: 0.15,
 	lerp: 0.08,
@@ -37,11 +41,23 @@ const DEFAULTS: Required<ScrollMomentumOptions> = {
 	scrollEndMs: 120,
 }
 
+function getEffectiveSpeed(
+	options: ScrollMomentumOptions | undefined,
+	isNarrow: boolean,
+): number {
+	const speed = options?.speed ?? DEFAULTS.speed
+	const speedMobile = options?.speedMobile
+	if (speedMobile != null && isNarrow) return speedMobile
+	return speed
+}
+
 export function useScrollMomentum(
 	elementRef: RefObject<HTMLElement | null>,
 	sectionRef: RefObject<HTMLElement | null>,
 	options?: ScrollMomentumOptions,
 ): void {
+	const effectiveSpeedRef = useRef(0)
+
 	useEffect(() => {
 		const el = elementRef.current
 		const section = sectionRef.current
@@ -49,13 +65,15 @@ export function useScrollMomentum(
 
 		const {
 			axis,
-			speed,
 			lerp,
 			friction,
 			boost,
 			threshold,
 			scrollEndMs,
 		} = { ...DEFAULTS, ...options }
+
+		const mql = window.matchMedia(`(max-width: ${BIGTITLE_MOBILE_BREAKPOINT}px)`)
+		effectiveSpeedRef.current = getEffectiveSpeed(options, mql.matches)
 
 		let lastScrollY = window.scrollY
 		let scrollOrigin = section.getBoundingClientRect().top + window.scrollY
@@ -93,7 +111,8 @@ export function useScrollMomentum(
 		function updateScrollOrigin() {
 			if (!section) return
 			scrollOrigin = section.getBoundingClientRect().top + window.scrollY
-			scrollBased = (window.scrollY - scrollOrigin) * speed
+			const s = effectiveSpeedRef.current
+			scrollBased = (window.scrollY - scrollOrigin) * s
 			displayed = scrollBased
 		}
 
@@ -101,9 +120,10 @@ export function useScrollMomentum(
 			if (!section) return
 			const scrollY = window.scrollY
 			const delta = scrollY - lastScrollY
+			const s = effectiveSpeedRef.current
 
-			scrollBased = (scrollY - scrollOrigin) * speed
-			velocity = delta * speed
+			scrollBased = (scrollY - scrollOrigin) * s
+			velocity = delta * s
 			lastScrollY = scrollY
 			momentumActive = false
 
@@ -115,17 +135,24 @@ export function useScrollMomentum(
 			}, scrollEndMs)
 		}
 
+		function onBreakpointChange() {
+			effectiveSpeedRef.current = getEffectiveSpeed(options, mql.matches)
+			updateScrollOrigin()
+		}
+
 		updateScrollOrigin()
 		applyTransform(displayed)
 		rafId = requestAnimationFrame(tick)
 
+		mql.addEventListener('change', onBreakpointChange)
 		window.addEventListener('scroll', onScroll, { passive: true })
 		window.addEventListener('resize', updateScrollOrigin)
 		return () => {
+			mql.removeEventListener('change', onBreakpointChange)
 			window.removeEventListener('scroll', onScroll)
 			window.removeEventListener('resize', updateScrollOrigin)
 			if (rafId !== null) cancelAnimationFrame(rafId)
 			if (scrollEndTimeout) clearTimeout(scrollEndTimeout)
 		}
-	}, [elementRef, sectionRef, options?.axis, options?.speed, options?.lerp, options?.friction, options?.boost, options?.threshold, options?.scrollEndMs])
+	}, [elementRef, sectionRef, options?.axis, options?.speed, options?.speedMobile, options?.lerp, options?.friction, options?.boost, options?.threshold, options?.scrollEndMs])
 }
