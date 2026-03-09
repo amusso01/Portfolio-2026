@@ -340,13 +340,13 @@ export function Contact() {
 								</div>
 
 								{submitStatus === 'success' && (
-									<p className="text-accent font-body font-medium">
+									<p className="text-black font-body font-medium mt-1">
 										Message sent successfully! I&apos;ll get back to you soon.
 									</p>
 								)}
 
 								{submitStatus === 'error' && (
-									<p className="text-red-500 font-body font-medium">
+									<p className="text-red-500 font-body font-medium mt-1">
 										Something went wrong. Please try again.
 									</p>
 								)}
