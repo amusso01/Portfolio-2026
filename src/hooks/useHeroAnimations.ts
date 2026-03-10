@@ -124,8 +124,8 @@ function runHelloWaveAndProximity(
 
 /**
  * Image reveal: fade in + ellipse clip from top.
- * Parallax: image follows mouse (magnet effect); stronger pull from viewport center.
- * Returns cleanup to remove global mousemove listener.
+ * Parallax: image follows mouse (magnet effect) on desktop only; disabled on mobile to prevent overflow.
+ * Returns cleanup to remove global mousemove listener and media query listener.
  */
 function runImageAnimations(
 	imageRef: HTMLDivElement | null,
@@ -153,8 +153,10 @@ function runImageAnimations(
 		},
 	)
 
+	const mediaQuery = window.matchMedia('(min-width: 768px)')
+
 	const handleMouseMove = (e: MouseEvent) => {
-		if (!imageRef) return
+		if (!imageRef || !mediaQuery.matches) return
 		const { clientX, clientY } = e
 		const { innerWidth, innerHeight } = window
 		const xPos = (clientX / innerWidth - 0.5) * 48
@@ -167,8 +169,24 @@ function runImageAnimations(
 		})
 	}
 
+	const handleMediaChange = (e: MediaQueryListEvent) => {
+		if (!imageRef) return
+		if (!e.matches) {
+			gsap.set(imageRef, { x: 0, y: 0 })
+		}
+	}
+
+	mediaQuery.addEventListener('change', handleMediaChange)
+	// Reset transform on mobile (e.g. initial load or when resizing to mobile)
+	if (!mediaQuery.matches && imageRef) {
+		gsap.set(imageRef, { x: 0, y: 0 })
+	}
 	window.addEventListener('mousemove', handleMouseMove)
-	return () => window.removeEventListener('mousemove', handleMouseMove)
+
+	return () => {
+		window.removeEventListener('mousemove', handleMouseMove)
+		mediaQuery.removeEventListener('change', handleMediaChange)
+	}
 }
 
 /** Hook to run all Hero GSAP animations; call with refs from Hero component */

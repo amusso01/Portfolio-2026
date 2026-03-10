@@ -18,6 +18,9 @@ dist-ssr
 .env.*.local
 .dev.vars
 
+# Plans (local reference)
+CONTENTFUL_MIGRATION_PLAN.md
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

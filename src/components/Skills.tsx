@@ -50,6 +50,21 @@ export function Skills() {
 				},
 			)
 
+			gsap.fromTo(
+				titleRef.current,
+				{ yPercent: 0 },
+				{
+					yPercent: 90,
+					ease: 'none',
+					scrollTrigger: {
+						trigger: sectionRef.current,
+						start: 'top top',
+						end: 'bottom top',
+						scrub: true,
+					},
+				},
+			)
+
 			const gridRows = contentRef.current?.querySelectorAll('.skill-row')
 			if (gridRows) {
 				gsap.fromTo(

@@ -83,8 +83,8 @@
 
 	@media (max-width: 576px) {
 		.section-padding {
-			padding-top: 40px;
-			padding-bottom: 40px;
+			padding-top: 25px;
+			padding-bottom: 25px;
 		}
 	}
 
@@ -95,7 +95,7 @@
 
 	@media (max-width: 768px) {
 		.section-padding-about {
-			padding-bottom: 5vh;
+			padding-bottom: 1vh;
 		}
 	}
 
@@ -106,7 +106,7 @@
 
 	@media (max-width: 768px) {
 		.number-offset {
-			margin-top: 10vh;
+			margin-top: 10px;
 		}
 	}
 
@@ -185,13 +185,13 @@
 
 	@media (max-width: 580px) {
 		.bigTitle .titleWord:nth-child(1) {
-			width: 16%;
+			width: 25%;
 		}
 		.bigTitle .titleWord:nth-child(2) {
-			margin-left: 0;
+			margin-left: 10.5vh;
 		}
-		.bigTitle .titleWord:nth-child(3) {
-			margin-left: 0;
+		#work .bigTitle .titleWord:nth-child(2) {
+			margin-left: 11.5vh;
 		}
 	}
 

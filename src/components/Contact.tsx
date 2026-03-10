@@ -11,7 +11,7 @@
  *
  * ANIMATIONS:
  * - Title: scroll-driven horizontal translate on "IN" (momentum/lerp)
- * - Email: fade in on section view; GSAP color transition on hover (accent)
+ * - Email: fade in on section view; GSAP color transition on hover (selection orange)
  * - Form fields: staggered fade + slide up on scroll
  */
 import { useEffect, useRef, useState } from 'react'
@@ -148,12 +148,12 @@ export function Contact() {
 				}
 			}
 
-			/* Email link: GSAP color transition on hover (accent green) */
+			/* Email link: GSAP color transition on hover (selection orange) */
 			const text = emailRef.current
 			if (text) {
 				const onMouseEnter = () => {
 					gsap.to(text, {
-						color: '#97F093',
+						color: '#f7924e',
 						duration: 0.3,
 						ease: 'power2.out',
 					})
@@ -180,7 +180,7 @@ export function Contact() {
 		}
 	}, [])
 
-	useScrollMomentum(movingWordRef, sectionRef, { speedMobile: 0.08 })
+	useScrollMomentum(movingWordRef, sectionRef)
 
 	return (
 		<section
@@ -215,7 +215,7 @@ export function Contact() {
 						<a
 							ref={emailRef}
 							href={`mailto:${profileData.email}`}
-							className="text-xl md:text-2xl lg:text-3xl font-display font-bold text-ink hover:text-accent transition-colors duration-300 mb-10 break-all inline-block"
+							className="text-xl md:text-2xl lg:text-3xl font-display font-bold text-ink hover:text-selection transition-colors duration-300 mb-10 break-all inline-block"
 						>
 							{profileData.email}
 						</a>

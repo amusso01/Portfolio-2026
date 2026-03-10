@@ -12,8 +12,15 @@
  * PulsatingColon: Blinks every 1s for clock effect.
  * PulsatingDot: Green dot with ping animation (availability indicator).
  */
-import { useState, useEffect, useMemo, useCallback } from 'react'
+import {
+	type MouseEvent,
+	useState,
+	useEffect,
+	useMemo,
+	useCallback,
+} from 'react'
 import profileData from '../data/profile.json'
+import { useScrollToSection } from '../hooks/useNavigation'
 
 /** Returns current time in London (HH:MM), updates every second */
 function useLondonTime() {
@@ -135,7 +142,7 @@ function CollapsibleName({
 
 	return (
 		<span
-			className="text-sm md:text-[13px] uppercase font-body font-bold text-ink leading-tight inline-flex items-baseline cursor-default"
+			className="text-sm md:text-[15px] uppercase font-body font-bold text-ink leading-tight inline-flex items-baseline cursor-inherit"
 			onMouseEnter={onEnter}
 			onMouseLeave={onLeave}
 		>
@@ -167,48 +174,61 @@ function CollapsibleName({
 function PulsatingDot() {
 	return (
 		<span className="relative inline-flex h-1.5 w-1.5 items-center justify-center">
-			<span className="absolute inline-flex h-[9px] w-[9px] rounded-full bg-accent opacity-75 animate-ping" />
+			<span className="absolute inline-flex h-[10px] w-[10px] rounded-full bg-accent opacity-75 animate-ping" />
 			<span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
 		</span>
 	)
 }
 
+const HEADER_OFFSET = 60
+
 export function TopHeader() {
 	const londonTime = useLondonTime()
 	const [hours, minutes] = londonTime.split(':') || ['', '']
 	const collapsed = useScrolledPastThreshold()
+	const scrollToSection = useScrollToSection(HEADER_OFFSET)
+
+	const handleLogoClick = (e: MouseEvent<HTMLButtonElement>) => {
+		e.preventDefault()
+		scrollToSection('#hero')
+	}
 
 	return (
 		<header className="fixed top-0 left-0 right-0 z-50 bg-canvas/95 backdrop-blur-sm border-b border-subtle/40">
 			<div className="container-custom">
 				<div className="flex items-center justify-between h-12 md:h-14 px-4 md:px-0">
-					{/* WEB DEVELOPER / Name */}
-					<div className="flex flex-col">
-						<span className="text-[11px] font-display font-extralight lowercase tracking-[0.1px]">
+					{/* WEB DEVELOPER / Name - site logo, links to hero */}
+					<button
+						type="button"
+						onClick={handleLogoClick}
+						className="flex flex-col text-left hover:opacity-80 transition-opacity duration-200"
+						aria-label="Scroll to top"
+					>
+						<span className="text-[12px] font-display font-extralight lowercase tracking-[0.1px]">
 							Web Developer
 						</span>
 						<CollapsibleName name={profileData.name} collapsed={collapsed} />
-					</div>
+					</button>
 
 					{/* Right side container - everything text-align right */}
 					<div className="flex items-center gap-8 md:gap-16">
 						{/* Left: LOCATION / City + Time - very close to left */}
 						<div className="hidden md:flex flex-col items-end text-right">
-							<span className="text-[11px] font-display font-extralight lowercase tracking-[0.1px]">
+							<span className="text-[12px] font-display font-extralight lowercase tracking-[0.1px]">
 								Location
 							</span>
 							<div className="flex items-center gap-1 leading-tight">
-								<span className="text-sm md:text-[13px] uppercase font-body font-[350] text-ink">
+								<span className="text-sm md:text-[14px] uppercase font-body font-[350] text-ink">
 									London UK
 								</span>
 								{hours && minutes ? (
-									<span className="text-sm md:text-[13px] uppercase font-body font-[350] text-ink">
+									<span className="text-sm md:text-[14px] uppercase font-body font-[350] text-ink">
 										{hours}
 										<PulsatingColon />
 										{minutes}
 									</span>
 								) : (
-									<span className="text-sm md:text-[13px] uppercase font-body font-[350] text-ink">
+									<span className="text-sm md:text-[14px] uppercase font-body font-[350] text-ink">
 										--:--
 									</span>
 								)}
@@ -217,7 +237,7 @@ export function TopHeader() {
 
 						{/* STATUS / Available */}
 						<div className="flex flex-col items-end text-right">
-							<span className="text-[11px] font-display font-extralight lowercase tracking-[0.1px]">
+							<span className="text-[12px] font-display font-extralight lowercase tracking-[0.1px]">
 								Status
 							</span>
 							<div className="flex items-center gap-2 leading-tight">

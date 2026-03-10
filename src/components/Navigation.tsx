@@ -15,7 +15,7 @@
 import { MouseEvent } from 'react'
 import { Magnetic } from './Magnetic'
 import {
-	navItems,
+	displayNavItems,
 	useActiveSection,
 	useScrollToSection,
 } from '../hooks/useNavigation'
@@ -38,7 +38,7 @@ export function Navigation() {
 			aria-label="Main navigation"
 		>
 			<div className="flex items-center gap-2 px-5 py-2 bg-white/80 backdrop-blur-xl rounded-full border border-subtle shadow-sm">
-				{navItems.map((item) => (
+				{displayNavItems.map((item) => (
 					<Magnetic key={item.href} strength={0.3} bounds={0.5}>
 						<button
 							onClick={(e) => handleNavClick(e, item.href)}
@@ -72,11 +72,15 @@ export function MobileNavigation() {
 	return (
 		<nav className="fixed top-0 left-0 right-0 z-50 md:hidden bg-white/80 backdrop-blur-xl border-b border-subtle">
 			<div className="flex items-center justify-between px-2 py-2 overflow-x-auto">
-				<span className="text-lg font-bold font-display whitespace-nowrap shrink-0">
+				<button
+					type="button"
+					onClick={(e) => handleNavClick(e, '#hero')}
+					className="text-lg font-bold font-display whitespace-nowrap shrink-0 text-ink hover:text-muted transition-colors duration-300"
+				>
 					AM
-				</span>
+				</button>
 				<div className="flex items-center gap-0.5 min-w-0">
-					{navItems.map((item) => (
+					{displayNavItems.map((item) => (
 						<button
 							key={item.href}
 							onClick={(e) => handleNavClick(e, item.href)}

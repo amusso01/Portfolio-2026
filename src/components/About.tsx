@@ -18,10 +18,12 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import profileData from '../data/profile.json'
 import { useScrollMomentum } from '../hooks/useScrollMomentum'
+import { useIsMobile } from '../hooks/use-mobile'
 
 gsap.registerPlugin(ScrollTrigger)
 
 export function About() {
+	const isMobile = useIsMobile()
 	const sectionRef = useRef<HTMLDivElement>(null)
 	const numberRef = useRef<HTMLDivElement>(null)
 	const projectsRef = useRef<HTMLDivElement>(null)
@@ -127,15 +129,16 @@ export function About() {
 
 	useScrollMomentum(movingWordRef, sectionRef, {
 		speed: 0.15,
-		speedMobile: 0.08,
 		...ABOUT_PHYSICS,
 	})
 	useScrollMomentum(numberRef, sectionRef, {
+		enabled: !isMobile,
 		axis: 'y',
 		speed: 0.22,
 		...ABOUT_PHYSICS,
 	})
 	useScrollMomentum(projectsRef, sectionRef, {
+		enabled: !isMobile,
 		axis: 'y',
 		speed: -0.1,
 		...ABOUT_PHYSICS,
@@ -148,7 +151,7 @@ export function About() {
 			className="section-padding section-padding-about bg-canvas"
 		>
 			<div className="container-custom">
-				<div className="bigTitle text-[48px] md:text-section xl:text-[190px] font-display font-bold mb-10">
+				<div className="bigTitle text-[48px] md:text-section xl:text-[190px] font-display font-bold mb-1 md:mb-10">
 					<span className="titleWord inline-block overflow-hidden align-top">
 						AB
 					</span>
@@ -213,7 +216,7 @@ export function About() {
 					<div className="lg:col-span-6 lg:col-start-7 flex flex-col items-center lg:items-end select-none">
 						<div
 							ref={projectsRef}
-							className="relative will-change-transform self-start mt-[15vh] md:mt-[30vh]"
+							className="relative will-change-transform self-start mt-[10px] md:mt-[30vh]"
 						>
 							<span className="text-[200px] md:text-[300px] font-display font-extrabold text-subtle/50 leading-none">
 								{profileData.projectsCompleted}+

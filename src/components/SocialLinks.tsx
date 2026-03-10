@@ -5,7 +5,7 @@ import { Github, Linkedin } from 'lucide-react'
 import profileData from '../data/profile.json'
 
 const linkClass =
-	'text-muted hover:text-accent transition-colors duration-300'
+	'text-muted hover:text-selection transition-colors duration-300'
 
 export function SocialLinks({ className = '' }: { className?: string }) {
 	const { linkedin, github } = profileData.social

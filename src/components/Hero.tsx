@@ -93,10 +93,10 @@ export function Hero() {
 						</div>
 					</div>
 
-					{/* Right side - Image */}
+					{/* Right side - Image (overflow-hidden on mobile so transform/parallax never spills out) */}
 					<div
 						ref={imageRef}
-						className="md:col-span-4 lg:col-span-5 order-1 md:order-2 flex justify-center lg:justify-end"
+						className="md:col-span-4 lg:col-span-5 order-1 md:order-2 flex justify-center lg:justify-end overflow-hidden md:overflow-visible"
 					>
 						<div
 							ref={imageClipRef}

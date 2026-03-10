@@ -15,7 +15,7 @@
  * - Direction-aware hover: on enter, a background wipe fills from the edge
  *   the mouse entered (top or bottom). On leave, it disappears toward the
  *   edge the mouse left from. Title shifts right, arrow moves diagonally
- *   and turns accent green, index number brightens.
+ *   and turns selection orange, index number brightens.
  * - Scroll-driven horizontal translate on the "JE" word in the section title,
  *   with lerp smoothing and post-scroll momentum/friction.
  */
@@ -43,7 +43,7 @@ const HOVER_EASE = 'power2.out'
  * The grey background highlight is a single shared div owned by the parent
  * Work component. On mouseenter/leave, each row calls onHoverEnter/Leave
  * to position + animate that shared div. Per-row animations (title shift,
- * arrow diagonal + accent color, index highlight) still run locally.
+ * arrow diagonal + selection color, index highlight) still run locally.
  */
 function ProjectRow({
 	project,
@@ -79,7 +79,7 @@ function ProjectRow({
 				x: -1,
 				y: -5,
 				scale: 1.1,
-				color: '#97F093',
+				color: '#f7924e',
 				duration: HOVER_DURATION,
 				ease: HOVER_EASE,
 			},
@@ -311,7 +311,7 @@ export function Work() {
 		[],
 	)
 
-	useScrollMomentum(movingWordRef, sectionRef, { speedMobile: 0.08 })
+	useScrollMomentum(movingWordRef, sectionRef)
 
 	/* Section title fade-in on scroll */
 	useEffect(() => {

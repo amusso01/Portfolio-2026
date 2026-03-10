@@ -21,6 +21,9 @@ export const navItems: NavItem[] = [
 	{ label: 'Contact', href: '#contact' },
 ]
 
+/** Nav items for display (excludes Hero - logo links to hero instead) */
+export const displayNavItems = navItems.filter((item) => item.href !== '#hero')
+
 const sectionIds = navItems.map((item) => item.href.slice(1))
 const sectionSelector = sectionIds.map((id) => `#${id}`).join(',')
 
