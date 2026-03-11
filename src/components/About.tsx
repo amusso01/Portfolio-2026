@@ -129,7 +129,6 @@ export function About() {
 
 	useScrollMomentum(movingWordRef, sectionRef, {
 		speed: 0.15,
-		clamp: true,
 		...ABOUT_PHYSICS,
 	})
 	useScrollMomentum(numberRef, sectionRef, {

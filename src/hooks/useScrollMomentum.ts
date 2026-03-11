@@ -27,8 +27,6 @@ export interface ScrollMomentumOptions {
 	threshold?: number
 	/** Ms to wait after last scroll event before starting momentum. Default `120`. */
 	scrollEndMs?: number
-	/** Clamp translation so the element stays within the gap between its siblings. Default `false`. */
-	clamp?: boolean
 }
 
 const DEFAULTS: Required<Omit<ScrollMomentumOptions, 'enabled'>> & { enabled: boolean } = {
@@ -40,7 +38,6 @@ const DEFAULTS: Required<Omit<ScrollMomentumOptions, 'enabled'>> & { enabled: bo
 	boost: 1.4,
 	threshold: 0.04,
 	scrollEndMs: 120,
-	clamp: false,
 }
 
 export function useScrollMomentum(
@@ -53,7 +50,7 @@ export function useScrollMomentum(
 		const section = sectionRef.current
 		if (!el || !section) return
 
-		const { enabled, axis, speed, lerp, friction, boost, threshold, scrollEndMs, clamp } = {
+		const { enabled, axis, speed, lerp, friction, boost, threshold, scrollEndMs } = {
 			...DEFAULTS,
 			...options,
 		}
@@ -72,37 +69,6 @@ export function useScrollMomentum(
 		let momentumActive = false
 		let rafId: number | null = null
 		let scrollEndTimeout: ReturnType<typeof setTimeout> | null = null
-		let minBound = -Infinity
-		let maxBound = Infinity
-
-		function computeBounds() {
-			if (!clamp || !el) return
-			const parent = el.parentElement
-			if (!parent) return
-			const siblings = Array.from(parent.children) as HTMLElement[]
-			const idx = siblings.indexOf(el)
-			const prev = siblings[idx - 1] as HTMLElement | undefined
-			const next = siblings[idx + 1] as HTMLElement | undefined
-			if (!prev && !next) return
-
-			// Get natural position by subtracting current transform offset
-			const elRect = el.getBoundingClientRect()
-			const elNaturalLeft = elRect.left - displayed
-			const elNaturalRight = elRect.right - displayed
-
-			if (prev) {
-				const prevRect = prev.getBoundingClientRect()
-				minBound = prevRect.right - elNaturalLeft
-			}
-			if (next) {
-				const nextRect = next.getBoundingClientRect()
-				maxBound = nextRect.left - elNaturalRight
-			}
-		}
-
-		function clampValue(v: number): number {
-			return Math.max(minBound, Math.min(maxBound, v))
-		}
 
 		function applyTransform(v: number) {
 			if (!el) return
@@ -121,7 +87,6 @@ export function useScrollMomentum(
 			}
 			const target = scrollBased + momentum
 			displayed += (target - displayed) * lerp
-			if (clamp) displayed = clampValue(displayed)
 			applyTransform(displayed)
 			rafId = requestAnimationFrame(tick)
 		}
@@ -131,7 +96,6 @@ export function useScrollMomentum(
 			scrollOrigin = section.getBoundingClientRect().top + window.scrollY
 			scrollBased = (window.scrollY - scrollOrigin) * speed
 			displayed = scrollBased
-			computeBounds()
 		}
 
 		function onScroll() {
@@ -175,6 +139,5 @@ export function useScrollMomentum(
 		options?.boost,
 		options?.threshold,
 		options?.scrollEndMs,
-		options?.clamp,
 	])
 }

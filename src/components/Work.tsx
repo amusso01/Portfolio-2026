@@ -311,7 +311,7 @@ export function Work() {
 		[],
 	)
 
-	useScrollMomentum(movingWordRef, sectionRef, { clamp: true })
+	useScrollMomentum(movingWordRef, sectionRef)
 
 	/* Section title fade-in on scroll */
 	useEffect(() => {

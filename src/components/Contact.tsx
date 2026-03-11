@@ -180,7 +180,7 @@ export function Contact() {
 		}
 	}, [])
 
-	useScrollMomentum(movingWordRef, sectionRef, { clamp: true })
+	useScrollMomentum(movingWordRef, sectionRef)
 
 	return (
 		<section
