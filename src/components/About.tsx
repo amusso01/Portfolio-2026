@@ -206,7 +206,7 @@ export function About() {
 							ref={whatIBuildRef}
 							className="text-lg lg:text-[1.55rem] text-ink leading-[45px] text-justify"
 						>
-							<span className="block text-sm text-muted uppercase tracking-widest mb-4">
+							<span className="block font-semibold text-muted uppercase tracking-widest mb-4">
 								What I Build
 							</span>
 							{profileData.whatIBuild}
@@ -236,7 +236,7 @@ export function About() {
 							ref={outsideWorkRef}
 							className="text-lg lg:text-[1.55rem] text-ink leading-[45px] text-justify mt-10"
 						>
-							<span className="block text-sm text-muted uppercase tracking-widest mb-4">
+							<span className="block font-semibold text-muted uppercase tracking-widest mb-4">
 								Outside of Work
 							</span>
 							{profileData.outsideOfWork}
