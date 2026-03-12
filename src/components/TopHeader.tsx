@@ -194,7 +194,7 @@ export function TopHeader() {
 	}
 
 	return (
-		<header className="fixed top-0 left-0 right-0 z-50 bg-canvas/95 backdrop-blur-sm border-b border-subtle/40">
+		<div className="fixed top-0 left-0 right-0 z-50 bg-canvas/95 backdrop-blur-sm border-b border-subtle/40">
 			<div className="container-custom">
 				<div className="flex items-center justify-between h-12 md:h-14 px-4 md:px-0">
 					{/* WEB DEVELOPER / Name - site logo, links to hero */}
@@ -250,6 +250,6 @@ export function TopHeader() {
 					</div>
 				</div>
 			</div>
-		</header>
+		</div>
 	)
 }

@@ -34,12 +34,12 @@ function App() {
 			{/* Grain overlay */}
 			<div className="grain-overlay" />
 
-			{/* Top Header with info */}
-			<TopHeader />
-
-			{/* Navigation (bottom menu) */}
-			<Navigation />
-			<MobileNavigation />
+			{/* Header: top bar + navigation (desktop + mobile) */}
+			<header>
+				<TopHeader />
+				<Navigation />
+				<MobileNavigation />
+			</header>
 
 			{/* Main content */}
 			<main className="pt-16 md:pt-20">
