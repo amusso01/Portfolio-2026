@@ -21,6 +21,7 @@
  */
 import { type ReactNode, useEffect, useMemo, useRef, useState } from 'react'
 import { LoaderContext } from '../context/LoaderContext'
+import { LoaderAMMonogram } from './LoaderAMMonogram'
 
 interface AppLoaderProps {
 	children: ReactNode
@@ -29,7 +30,7 @@ interface AppLoaderProps {
 /** Max wait for document.fonts.ready before giving up */
 const FONT_LOAD_TIMEOUT_MS = 1800
 /** Delay after AM appears before expanding to full name */
-const EXPAND_DELAY_MS = 300
+const EXPAND_DELAY_MS = 200
 /** How long the lockup is shown before we're allowed to start the exit */
 const LOCKUP_HOLD_MS = 600
 /** Duration of the ellipse clip-path exit (black disappears bottom to top) */
@@ -233,6 +234,13 @@ export function AppLoader({ children }: AppLoaderProps) {
 									)
 								})}
 							</span>
+
+							{/* AM monogram: typewriter-style stroke animation (draw A, M, then erase) */}
+							{showAM && (
+								<div className="mt-10">
+									<LoaderAMMonogram />
+								</div>
+							)}
 						</div>
 
 						{/* Loading indicator: visible only while waiting for fonts */}
