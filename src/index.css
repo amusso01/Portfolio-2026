@@ -27,6 +27,7 @@
 
 	html {
 		scroll-behavior: auto;
+		overflow-x: hidden;
 	}
 
 	body {
@@ -133,12 +134,85 @@
 		}
 	}
 
-	/* About section big title: first word fixed width, second scroll-driven, last floated right */
+	/* Big title: desktop split layout (3 words with scroll-driven middle word) */
 	.bigTitle {
 		display: flex;
 		flex-wrap: nowrap;
 		align-items: baseline;
 		width: 100%;
+		font-size: 48px;
+	}
+
+	@media (min-width: 768px) {
+		.bigTitle {
+			font-size: 100px;
+			line-height: 1.1;
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.bigTitle {
+			font-size: 156px;
+			line-height: 1.1;
+		}
+	}
+
+	@media (min-width: 1280px) {
+		.bigTitle {
+			font-size: 190px;
+		}
+	}
+
+	#work .bigTitle {
+		font-size: 40px;
+	}
+
+	@media (min-width: 768px) {
+		#work .bigTitle {
+			font-size: 90px;
+		}
+	}
+
+	@media (min-width: 1024px) {
+		#work .bigTitle {
+			font-size: 140px;
+			line-height: 1.1;
+		}
+	}
+
+	@media (min-width: 1280px) {
+		#work .bigTitle {
+			font-size: 162px;
+		}
+	}
+
+	#contact .bigTitle {
+		font-size: 40px;
+	}
+
+	@media (min-width: 768px) {
+		#contact .bigTitle {
+			font-size: 90px;
+		}
+	}
+
+	@media (min-width: 1024px) {
+		#contact .bigTitle {
+			font-size: 115px;
+			line-height: 1.1;
+		}
+	}
+
+	@media (min-width: 1280px) {
+		#contact .bigTitle {
+			font-size: 152px;
+		}
+	}
+
+	/* Big title: mobile single-line layout (slide-up reveal).
+	   Font-size is computed by JS to fill 100% of the container width. */
+	.bigTitle-mobile {
+		line-height: 1.1;
 	}
 
 	.bigTitle .titleWord:nth-child(1) {
@@ -183,20 +257,7 @@
 		flex-shrink: 0;
 	}
 
-	@media (max-width: 580px) {
-		.bigTitle .titleWord:nth-child(1) {
-			width: 25%;
-		}
-		.bigTitle .titleWord:nth-child(2) {
-			margin-left: 4vw;
-		}
-		#work .bigTitle .titleWord:nth-child(2) {
-			margin-left: 3vw;
-		}
-		#contact .bigTitle .titleWord:nth-child(2) {
-			margin-left: 0vw;
-		}
-	}
+	/* On mobile (<768px), BigTitle renders as a single word — no .bigTitle/.titleWord needed */
 
 	/* Contact form placeholders: faint grey (CSS for reliable styling) */
 	#contact input::placeholder,

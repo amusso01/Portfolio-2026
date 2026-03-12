@@ -26,8 +26,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 type Timeline = ReturnType<typeof gsap.timeline>
 import { ArrowUpRight } from 'lucide-react'
 import projectsData from '../data/projects.json'
-import { useScrollMomentum } from '../hooks/useScrollMomentum'
-import { useIsMobile } from '../hooks/use-mobile'
+import { BigTitle } from './BigTitle'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -222,9 +221,7 @@ function ProjectRow({
 /* ─────────────────────────── Work (section) ─────────────────────────── */
 
 export function Work() {
-	const isMobile = useIsMobile()
 	const sectionRef = useRef<HTMLDivElement>(null)
-	const movingWordRef = useRef<HTMLSpanElement>(null)
 	const listRef = useRef<HTMLDivElement>(null)
 	const hoverBgRef = useRef<HTMLDivElement>(null)
 	// Track whether any row is currently hovered so we can distinguish
@@ -313,10 +310,6 @@ export function Work() {
 		[],
 	)
 
-	useScrollMomentum(movingWordRef, sectionRef, {
-		speed: isMobile ? 0.02 : 0.15,
-	})
-
 	/* Section title fade-in on scroll */
 	useEffect(() => {
 		const ctx = gsap.context(() => {
@@ -344,22 +337,14 @@ export function Work() {
 	}, [])
 
 	return (
-		<section id="work" ref={sectionRef} className="section-padding bg-canvas">
+		<section id="work" ref={sectionRef} className="section-padding bg-canvas overflow-x-hidden">
 			<div className="container-custom">
-				<div className="bigTitle text-[45px] md:text-section xl:text-[190px] font-display font-bold mb-10">
-					<span className="titleWord inline-block overflow-hidden align-top">
-						PRO
-					</span>
-					<span
-						ref={movingWordRef}
-						className="titleWord inline-block overflow-hidden align-top"
-					>
-						JE
-					</span>
-					<span className="titleWord inline-block overflow-hidden align-top">
-						CTS
-					</span>
-				</div>
+				<BigTitle
+					words={['PRO', 'JE', 'CTS']}
+					sentence="PROJECTS"
+					sectionRef={sectionRef}
+					className="mb-10"
+				/>
 
 				<p className="text-[20px] md:text-xl mb-6 md:mb-12">
 					A curated selection of projects showcasing expertise in e-commerce

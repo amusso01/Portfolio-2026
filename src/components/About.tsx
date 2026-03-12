@@ -19,6 +19,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import profileData from '../data/profile.json'
 import { useScrollMomentum } from '../hooks/useScrollMomentum'
 import { useIsMobile } from '../hooks/use-mobile'
+import { BigTitle } from './BigTitle'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -30,8 +31,6 @@ export function About() {
 	const contentRef = useRef<HTMLDivElement>(null)
 	const whatIBuildRef = useRef<HTMLParagraphElement>(null)
 	const outsideWorkRef = useRef<HTMLParagraphElement>(null)
-	const movingWordRef = useRef<HTMLSpanElement>(null)
-
 	useEffect(() => {
 		const ctx = gsap.context(() => {
 			/* Initial number animation: scale + fade */
@@ -129,10 +128,6 @@ export function About() {
 
 	const desktopOnly = { enabled: !isMobile, ...ABOUT_PHYSICS }
 
-	useScrollMomentum(movingWordRef, sectionRef, {
-		speed: isMobile ? 0.02 : 0.15,
-		...ABOUT_PHYSICS,
-	})
 	useScrollMomentum(numberRef, sectionRef, {
 		...desktopOnly,
 		axis: 'y',
@@ -148,23 +143,16 @@ export function About() {
 		<section
 			id="about"
 			ref={sectionRef}
-			className="section-padding section-padding-about bg-canvas"
+			className="section-padding section-padding-about bg-canvas overflow-x-hidden"
 		>
 			<div className="container-custom">
-				<div className="bigTitle text-[48px] md:text-section xl:text-[190px] font-display font-bold mb-1 md:mb-10">
-					<span className="titleWord inline-block overflow-hidden align-top">
-						AB
-					</span>
-					<span
-						ref={movingWordRef}
-						className="titleWord inline-block overflow-hidden align-top"
-					>
-						OUT
-					</span>
-					<span className="titleWord inline-block overflow-hidden align-top">
-						ME
-					</span>
-				</div>
+				<BigTitle
+					words={['AB', 'OUT', 'ME']}
+					sentence="ABOUT ME"
+					sectionRef={sectionRef}
+					className="mb-1 md:mb-10"
+					momentumOptions={ABOUT_PHYSICS}
+				/>
 
 				{/* Row 1: 10+ left, bio right */}
 				<div className="grid grid-cols-1 lg:grid-cols-12 gap-1 lg:gap-20 mb-10 md:mb-0">

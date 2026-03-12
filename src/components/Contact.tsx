@@ -22,8 +22,7 @@ import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile'
 import profileData from '../data/profile.json'
 import { SocialLinks } from './SocialLinks'
 import { Magnetic } from './Magnetic'
-import { useScrollMomentum } from '../hooks/useScrollMomentum'
-import { useIsMobile } from '../hooks/use-mobile'
+import { BigTitle } from './BigTitle'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -44,9 +43,7 @@ const budgetOptions = [
 const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY as string
 
 export function Contact() {
-	const isMobile = useIsMobile()
 	const sectionRef = useRef<HTMLDivElement>(null)
-	const movingWordRef = useRef<HTMLSpanElement>(null)
 	const emailRef = useRef<HTMLAnchorElement>(null)
 	const formRef = useRef<HTMLFormElement>(null)
 	const turnstileRef = useRef<TurnstileInstance>(null)
@@ -182,31 +179,19 @@ export function Contact() {
 		}
 	}, [])
 
-	useScrollMomentum(movingWordRef, sectionRef, {
-		speed: isMobile ? 0.02 : 0.15,
-	})
-
 	return (
 		<section
 			id="contact"
 			ref={sectionRef}
-			className="section-padding bg-canvas"
+			className="section-padding bg-canvas overflow-x-hidden"
 		>
 			<div className="container-custom">
-				<div className="bigTitle text-[40px] md:text-[110px] xl:text-[160px] font-display font-bold mb-8 md:mb-16">
-					<span className="titleWord inline-block overflow-hidden align-top">
-						GET
-					</span>
-					<span
-						ref={movingWordRef}
-						className="titleWord inline-block overflow-hidden align-top"
-					>
-						IN
-					</span>
-					<span className="titleWord inline-block overflow-hidden align-top">
-						TOUCH
-					</span>
-				</div>
+				<BigTitle
+					words={['GET', 'IN', 'TOUCH']}
+					sentence="GET IN TOUCH"
+					sectionRef={sectionRef}
+					className="mb-8 md:mb-16"
+				/>
 
 				{/* Two-column: left = email + CTA + socials, right = form */}
 				<div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
