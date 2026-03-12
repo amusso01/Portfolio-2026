@@ -94,13 +94,16 @@ export function Hero() {
 					</div>
 
 					{/* Right side - Image (overflow-hidden on mobile so transform/parallax never spills out) */}
+					{/* Initial opacity:0 and clipPath prevent flash before GSAP runs */}
 					<div
 						ref={imageRef}
 						className="md:col-span-4 lg:col-span-5 order-1 md:order-2 flex justify-center lg:justify-end overflow-hidden md:overflow-visible"
+						style={{ opacity: 0 }}
 					>
 						<div
 							ref={imageClipRef}
 							className="relative w-full max-w-sm md:max-w-md aspect-[3/4] overflow-hidden rounded-sm"
+							style={{ clipPath: 'ellipse(100% 0% at 50% 0%)' }}
 						>
 							<img
 								src={PLACEHOLDER_IMAGE}

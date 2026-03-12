@@ -133,27 +133,20 @@ function runImageAnimations(
 	imageRef: HTMLDivElement | null,
 	imageClipRef: HTMLDivElement | null,
 ): () => void {
-	gsap.fromTo(
-		imageRef,
-		{ opacity: 0 },
-		{
-			opacity: 1,
-			duration: 0.5,
-			delay: 0.3,
-			ease: 'power2.out',
-		},
-	)
+	// Initial state is set in Hero.tsx (opacity: 0, clipPath) to avoid flash before GSAP runs
+	gsap.to(imageRef, {
+		opacity: 1,
+		duration: 0.5,
+		delay: 0.3,
+		ease: 'power2.out',
+	})
 
-	gsap.fromTo(
-		imageClipRef,
-		{ clipPath: 'ellipse(100% 0% at 50% 0%)' },
-		{
-			clipPath: 'ellipse(100% 150% at 50% 0%)',
-			duration: 1.5,
-			delay: 0.35,
-			ease: 'power2.out',
-		},
-	)
+	gsap.to(imageClipRef, {
+		clipPath: 'ellipse(100% 150% at 50% 0%)',
+		duration: 1.5,
+		delay: 0.35,
+		ease: 'power2.out',
+	})
 
 	const mediaQuery = window.matchMedia('(min-width: 768px)')
 
