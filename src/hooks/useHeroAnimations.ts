@@ -122,36 +122,49 @@ function runHelloWaveAndProximity(
 	return null
 }
 
+/** Last time the image reveal ran – used to detect Strict Mode remount (re-run within ~500ms). */
+let lastImageRevealRun = 0
+
 /**
  * Image reveal: fade in + ellipse clip from top.
  * Parallax: image follows mouse (magnet effect) on desktop only; disabled on mobile to prevent overflow.
+ * If effect re-runs within 500ms (Strict Mode remount), snap to final state instead of re-animating.
  * Returns cleanup to remove global mousemove listener and media query listener.
  */
 function runImageAnimations(
 	imageRef: HTMLDivElement | null,
 	imageClipRef: HTMLDivElement | null,
 ): () => void {
-	gsap.fromTo(
-		imageRef,
-		{ opacity: 0 },
-		{
-			opacity: 1,
-			duration: 0.5,
-			delay: 0.3,
-			ease: 'power2.out',
-		},
-	)
+	const now = Date.now()
+	const isStrictModeRemount = now - lastImageRevealRun < 500
+	lastImageRevealRun = now
 
-	gsap.fromTo(
-		imageClipRef,
-		{ clipPath: 'ellipse(100% 0% at 50% 0%)' },
-		{
-			clipPath: 'ellipse(100% 150% at 50% 0%)',
-			duration: 1.5,
-			delay: 0.35,
-			ease: 'power2.out',
-		},
-	)
+	if (isStrictModeRemount && imageRef && imageClipRef) {
+		// Strict Mode: first run was reverted; snap to final state so we don't see stop-then-restart
+		gsap.set(imageRef, { opacity: 1 })
+		gsap.set(imageClipRef, { clipPath: 'ellipse(100% 150% at 50% 0%)' })
+	} else {
+		gsap.fromTo(
+			imageRef,
+			{ opacity: 0 },
+			{
+				opacity: 1,
+				duration: 0.5,
+				delay: 0.3,
+				ease: 'power2.out',
+			},
+		)
+		gsap.fromTo(
+			imageClipRef,
+			{ clipPath: 'ellipse(100% 0% at 50% 0%)' },
+			{
+				clipPath: 'ellipse(100% 150% at 50% 0%)',
+				duration: 1.5,
+				delay: 0.35,
+				ease: 'power2.out',
+			},
+		)
+	}
 
 	const mediaQuery = window.matchMedia('(min-width: 768px)')
 
