@@ -38,7 +38,67 @@
 		/>
 	</head>
 
-	<body>
+	<body style="margin: 0; padding: 0">
+		<noscript>
+			<div
+				style="
+					min-height: 100vh;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					padding: 24px;
+					background: #000;
+					color: #fff;
+					font-family: 'Space Grotesk', sans-serif;
+				"
+			>
+				<div
+					style="
+						max-width: 640px;
+						display: flex;
+						flex-direction: column;
+						gap: 12px;
+						text-align: center;
+					"
+				>
+					<p
+						style="
+							margin: 0;
+							font-size: 11px;
+							letter-spacing: 0.4em;
+							text-transform: uppercase;
+							opacity: 0.6;
+						"
+					>
+						JavaScript Required
+					</p>
+					<h1
+						style="
+							margin: 0;
+							font-family: 'Space Grotesk', sans-serif;
+							font-size: clamp(32px, 7vw, 56px);
+							line-height: 1;
+							letter-spacing: 0.08em;
+						"
+					>
+						Andrea Musso
+					</h1>
+					<p style="margin: 0; font-size: 18px; line-height: 1.6;">
+						This portfolio needs JavaScript enabled to load the interactive experience.
+					</p>
+					<p style="margin: 0; font-size: 16px; line-height: 1.6; opacity: 0.8;">
+						If JavaScript is unavailable, you can still get in touch at
+						<a
+							href="mailto:hello@andreamusso.com"
+							style="color: inherit; font-weight: 600;"
+						>
+							hello@andreamusso.com
+						</a>
+						.
+					</p>
+				</div>
+			</div>
+		</noscript>
 		<!-- React app mounts here - createRoot() attaches to this div -->
 		<div id="root"></div>
 		<!-- type="module" enables ES6 imports; Vite resolves /src/main.tsx -->

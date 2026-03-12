@@ -9,7 +9,8 @@
  * RENDERING HIERARCHY (outer to inner):
  * 1. StrictMode - React dev-mode checks (double-invokes effects, deprecated API warnings)
  * 2. ErrorBoundary - Catches JS errors in child tree; shows fallback UI instead of crashing
- * 3. App - The root component containing the full page layout
+ * 3. AppLoader - Branded first-load overlay while fonts/layout settle
+ * 4. App - The root component containing the full page layout
  *
  * Why this structure?
  * - ErrorBoundary at this level ensures any uncaught error in the app shows a friendly
@@ -18,6 +19,7 @@
  */
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import { AppLoader } from './components/AppLoader.tsx'
 import { ErrorBoundary } from './components/ErrorBoundary.tsx'
 import './index.css'
 import App from './App.tsx'
@@ -25,7 +27,9 @@ import App from './App.tsx'
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ErrorBoundary>
-      <App />
+      <AppLoader>
+        <App />
+      </AppLoader>
     </ErrorBoundary>
   </StrictMode>,
 )

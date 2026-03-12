@@ -34,8 +34,9 @@ function runSubtitleAnimation(subtitleWrapRef: HTMLDivElement) {
 		duration: 0.15,
 		ease: 'power2.out',
 	})
-	const wordInners =
-		subtitleWrapRef.querySelectorAll<HTMLElement>('.subtitle-word-inner')
+	const wordInners = subtitleWrapRef.querySelectorAll<HTMLElement>(
+		'.subtitle-word-inner',
+	)
 	gsap.to(wordInners, {
 		y: 0,
 		duration: 0.35,
@@ -54,7 +55,8 @@ function runHelloWaveAndProximity(
 	contentRef: HTMLDivElement,
 	subtitleWrapRef: HTMLDivElement | null,
 ): (() => void) | null {
-	const helloChars = contentRef.querySelectorAll<HTMLElement>('[data-hello-char]')
+	const helloChars =
+		contentRef.querySelectorAll<HTMLElement>('[data-hello-char]')
 	if (!helloChars.length) return null
 
 	const tl = gsap.timeline({ delay: 0.2 })
@@ -122,49 +124,36 @@ function runHelloWaveAndProximity(
 	return null
 }
 
-/** Last time the image reveal ran – used to detect Strict Mode remount (re-run within ~500ms). */
-let lastImageRevealRun = 0
-
 /**
  * Image reveal: fade in + ellipse clip from top.
  * Parallax: image follows mouse (magnet effect) on desktop only; disabled on mobile to prevent overflow.
- * If effect re-runs within 500ms (Strict Mode remount), snap to final state instead of re-animating.
  * Returns cleanup to remove global mousemove listener and media query listener.
  */
 function runImageAnimations(
 	imageRef: HTMLDivElement | null,
 	imageClipRef: HTMLDivElement | null,
 ): () => void {
-	const now = Date.now()
-	const isStrictModeRemount = now - lastImageRevealRun < 500
-	lastImageRevealRun = now
+	gsap.fromTo(
+		imageRef,
+		{ opacity: 0 },
+		{
+			opacity: 1,
+			duration: 0.5,
+			delay: 0.3,
+			ease: 'power2.out',
+		},
+	)
 
-	if (isStrictModeRemount && imageRef && imageClipRef) {
-		// Strict Mode: first run was reverted; snap to final state so we don't see stop-then-restart
-		gsap.set(imageRef, { opacity: 1 })
-		gsap.set(imageClipRef, { clipPath: 'ellipse(100% 150% at 50% 0%)' })
-	} else {
-		gsap.fromTo(
-			imageRef,
-			{ opacity: 0 },
-			{
-				opacity: 1,
-				duration: 0.5,
-				delay: 0.3,
-				ease: 'power2.out',
-			},
-		)
-		gsap.fromTo(
-			imageClipRef,
-			{ clipPath: 'ellipse(100% 0% at 50% 0%)' },
-			{
-				clipPath: 'ellipse(100% 150% at 50% 0%)',
-				duration: 1.5,
-				delay: 0.35,
-				ease: 'power2.out',
-			},
-		)
-	}
+	gsap.fromTo(
+		imageClipRef,
+		{ clipPath: 'ellipse(100% 0% at 50% 0%)' },
+		{
+			clipPath: 'ellipse(100% 150% at 50% 0%)',
+			duration: 1.5,
+			delay: 0.35,
+			ease: 'power2.out',
+		},
+	)
 
 	const mediaQuery = window.matchMedia('(min-width: 768px)')
 
@@ -204,13 +193,7 @@ function runImageAnimations(
 
 /** Hook to run all Hero GSAP animations; call with refs from Hero component */
 export function useHeroAnimations(refs: HeroAnimationRefs) {
-	const {
-		heroRef,
-		contentRef,
-		imageRef,
-		imageClipRef,
-		subtitleWrapRef,
-	} = refs
+	const { heroRef, contentRef, imageRef, imageClipRef, subtitleWrapRef } = refs
 
 	useEffect(() => {
 		let cleanupProximity: (() => void) | null = null
@@ -239,11 +222,5 @@ export function useHeroAnimations(refs: HeroAnimationRefs) {
 			cleanupParallax?.()
 			ctx.revert()
 		}
-	}, [
-		heroRef,
-		contentRef,
-		imageRef,
-		imageClipRef,
-		subtitleWrapRef,
-	])
+	}, [heroRef, contentRef, imageRef, imageClipRef, subtitleWrapRef])
 }
