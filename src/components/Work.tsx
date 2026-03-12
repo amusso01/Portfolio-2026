@@ -313,7 +313,9 @@ export function Work() {
 		[],
 	)
 
-	useScrollMomentum(movingWordRef, sectionRef, { speed: isMobile ? 0.05 : 0.15 })
+	useScrollMomentum(movingWordRef, sectionRef, {
+		speed: isMobile ? 0.02 : 0.15,
+	})
 
 	/* Section title fade-in on scroll */
 	useEffect(() => {

@@ -188,10 +188,13 @@
 			width: 25%;
 		}
 		.bigTitle .titleWord:nth-child(2) {
-			margin-left: 10.5vh;
+			margin-left: 4vw;
 		}
 		#work .bigTitle .titleWord:nth-child(2) {
-			margin-left: 11.5vh;
+			margin-left: 3vw;
+		}
+		#contact .bigTitle .titleWord:nth-child(2) {
+			margin-left: 0vw;
 		}
 	}
 

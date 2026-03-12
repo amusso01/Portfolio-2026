@@ -182,7 +182,9 @@ export function Contact() {
 		}
 	}, [])
 
-	useScrollMomentum(movingWordRef, sectionRef, { speed: isMobile ? 0.05 : 0.15 })
+	useScrollMomentum(movingWordRef, sectionRef, {
+		speed: isMobile ? 0.02 : 0.15,
+	})
 
 	return (
 		<section
@@ -191,7 +193,7 @@ export function Contact() {
 			className="section-padding bg-canvas"
 		>
 			<div className="container-custom">
-				<div className="bigTitle text-[41px] md:text-[110px] xl:text-[160px] font-display font-bold mb-16">
+				<div className="bigTitle text-[40px] md:text-[110px] xl:text-[160px] font-display font-bold mb-8 md:mb-16">
 					<span className="titleWord inline-block overflow-hidden align-top">
 						GET
 					</span>
@@ -357,13 +359,12 @@ export function Contact() {
 					</div>
 				</div>
 
-				{/* Footer */}
-				<footer className="mt-20 pt-8 border-t border-subtle/40">
+				<div className="mt-20 pt-8 border-t border-subtle/40">
 					<p className="text-sm text-muted">
 						&copy; {new Date().getFullYear()} {profileData.name}. All rights
 						reserved.
 					</p>
-				</footer>
+				</div>
 			</div>
 		</section>
 	)

@@ -49,8 +49,10 @@ function App() {
 				<Work />
 				<Skills />
 				<Services />
-				<Contact />
 			</main>
+			<footer>
+				<Contact />
+			</footer>
 		</ReactLenis>
 	)
 }
