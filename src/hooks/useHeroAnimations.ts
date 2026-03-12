@@ -8,6 +8,7 @@
  */
 import { useEffect, RefObject } from 'react'
 import { gsap } from 'gsap'
+import { useLoaderExited } from '../context/LoaderContext'
 
 /** Refs required by useHeroAnimations – must point to Hero DOM nodes */
 export interface HeroAnimationRefs {
@@ -184,11 +185,15 @@ function runImageAnimations(
 	}
 }
 
-/** Hook to run all Hero GSAP animations; call with refs from Hero component */
+/** Hook to run all Hero GSAP animations; call with refs from Hero component.
+ * Waits for loader to exit so animations are visible (app pre-mounts under overlay). */
 export function useHeroAnimations(refs: HeroAnimationRefs) {
 	const { heroRef, contentRef, imageRef, imageClipRef, subtitleWrapRef } = refs
+	const loaderExited = useLoaderExited()
 
 	useEffect(() => {
+		if (!loaderExited) return
+
 		let cleanupProximity: (() => void) | null = null
 		let cleanupParallax: (() => void) | null = null
 
@@ -215,5 +220,5 @@ export function useHeroAnimations(refs: HeroAnimationRefs) {
 			cleanupParallax?.()
 			ctx.revert()
 		}
-	}, [heroRef, contentRef, imageRef, imageClipRef, subtitleWrapRef])
+	}, [loaderExited, heroRef, contentRef, imageRef, imageClipRef, subtitleWrapRef])
 }
