@@ -23,6 +23,7 @@ import profileData from '../data/profile.json'
 import { SocialLinks } from './SocialLinks'
 import { Magnetic } from './Magnetic'
 import { useScrollMomentum } from '../hooks/useScrollMomentum'
+import { useIsMobile } from '../hooks/use-mobile'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -43,6 +44,7 @@ const budgetOptions = [
 const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY as string
 
 export function Contact() {
+	const isMobile = useIsMobile()
 	const sectionRef = useRef<HTMLDivElement>(null)
 	const movingWordRef = useRef<HTMLSpanElement>(null)
 	const emailRef = useRef<HTMLAnchorElement>(null)
@@ -180,7 +182,7 @@ export function Contact() {
 		}
 	}, [])
 
-	useScrollMomentum(movingWordRef, sectionRef)
+	useScrollMomentum(movingWordRef, sectionRef, { speed: isMobile ? 0.05 : 0.15 })
 
 	return (
 		<section

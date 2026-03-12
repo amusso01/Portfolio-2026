@@ -27,6 +27,7 @@ type Timeline = ReturnType<typeof gsap.timeline>
 import { ArrowUpRight } from 'lucide-react'
 import projectsData from '../data/projects.json'
 import { useScrollMomentum } from '../hooks/useScrollMomentum'
+import { useIsMobile } from '../hooks/use-mobile'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -221,6 +222,7 @@ function ProjectRow({
 /* ─────────────────────────── Work (section) ─────────────────────────── */
 
 export function Work() {
+	const isMobile = useIsMobile()
 	const sectionRef = useRef<HTMLDivElement>(null)
 	const movingWordRef = useRef<HTMLSpanElement>(null)
 	const listRef = useRef<HTMLDivElement>(null)
@@ -311,7 +313,7 @@ export function Work() {
 		[],
 	)
 
-	useScrollMomentum(movingWordRef, sectionRef)
+	useScrollMomentum(movingWordRef, sectionRef, { speed: isMobile ? 0.05 : 0.15 })
 
 	/* Section title fade-in on scroll */
 	useEffect(() => {

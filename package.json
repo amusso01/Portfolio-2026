@@ -10,6 +10,7 @@
 		"lint": "eslint .",
 		"preview": "vite preview",
 		"deploy": "wrangler deploy",
+		"host": "vite --host",
 		"clean": "rm -rf node_modules yarn.lock"
 	},
 	"dependencies": {

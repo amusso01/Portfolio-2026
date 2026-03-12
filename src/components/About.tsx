@@ -127,21 +127,21 @@ export function About() {
 		scrollEndMs: 80,
 	} as const
 
+	const desktopOnly = { enabled: !isMobile, ...ABOUT_PHYSICS }
+
 	useScrollMomentum(movingWordRef, sectionRef, {
-		speed: 0.15,
+		speed: isMobile ? 0.05 : 0.15,
 		...ABOUT_PHYSICS,
 	})
 	useScrollMomentum(numberRef, sectionRef, {
-		enabled: !isMobile,
+		...desktopOnly,
 		axis: 'y',
 		speed: 0.22,
-		...ABOUT_PHYSICS,
 	})
 	useScrollMomentum(projectsRef, sectionRef, {
-		enabled: !isMobile,
+		...desktopOnly,
 		axis: 'y',
 		speed: -0.1,
-		...ABOUT_PHYSICS,
 	})
 
 	return (
