@@ -137,15 +137,13 @@ function runImageAnimations(
 	// Initial state is set in Hero.tsx (opacity: 0, clipPath) to avoid flash before GSAP runs
 	gsap.to(imageRef, {
 		opacity: 1,
-		duration: 0.5,
-		delay: 0.3,
+		duration: 0.1,
 		ease: 'power2.out',
 	})
 
 	gsap.to(imageClipRef, {
 		clipPath: 'ellipse(100% 150% at 50% 0%)',
-		duration: 1.5,
-		delay: 0.35,
+		duration: 1.3,
 		ease: 'power2.out',
 	})
 
@@ -220,5 +218,12 @@ export function useHeroAnimations(refs: HeroAnimationRefs) {
 			cleanupParallax?.()
 			ctx.revert()
 		}
-	}, [loaderExited, heroRef, contentRef, imageRef, imageClipRef, subtitleWrapRef])
+	}, [
+		loaderExited,
+		heroRef,
+		contentRef,
+		imageRef,
+		imageClipRef,
+		subtitleWrapRef,
+	])
 }

@@ -29,7 +29,7 @@ interface AppLoaderProps {
 /** Max wait for document.fonts.ready before giving up */
 const FONT_LOAD_TIMEOUT_MS = 1800
 /** Delay after AM appears before expanding to full name */
-const EXPAND_DELAY_MS = 200
+const EXPAND_DELAY_MS = 300
 /** How long the lockup is shown before we're allowed to start the exit */
 const LOCKUP_HOLD_MS = 600
 /** Duration of the ellipse clip-path exit (black disappears bottom to top) */
@@ -192,7 +192,9 @@ export function AppLoader({ children }: AppLoaderProps) {
 								<span
 									className="block text-[clamp(0.85rem,1.4vw,1rem)] font-display font-extralight lowercase tracking-[0.12em] leading-tight"
 									style={{
-										transform: showLockup ? 'translateY(0)' : 'translateY(100%)',
+										transform: showLockup
+											? 'translateY(0)'
+											: 'translateY(100%)',
 										opacity: showLockup ? 1 : 0,
 										transition:
 											'transform 650ms cubic-bezier(0.16, 1, 0.3, 1), opacity 400ms ease',
@@ -238,7 +240,9 @@ export function AppLoader({ children }: AppLoaderProps) {
 							className="absolute bottom-6 right-6 flex items-center gap-3"
 							style={{
 								opacity: showLoadingHint ? 1 : 0,
-								transform: showLoadingHint ? 'translateY(0)' : 'translateY(10px)',
+								transform: showLoadingHint
+									? 'translateY(0)'
+									: 'translateY(10px)',
 								transition:
 									'opacity 300ms ease, transform 500ms cubic-bezier(0.16, 1, 0.3, 1)',
 							}}
