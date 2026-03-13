@@ -21,7 +21,6 @@
  */
 import { type ReactNode, useEffect, useMemo, useRef, useState } from 'react'
 import { LoaderContext } from '../context/LoaderContext'
-import { LoaderAMMonogram } from './LoaderAMMonogram'
 
 interface AppLoaderProps {
 	children: ReactNode
@@ -92,6 +91,7 @@ export function AppLoader({ children }: AppLoaderProps) {
 	const [canFinishSequence, setCanFinishSequence] = useState(false)
 	const [isExiting, setIsExiting] = useState(false)
 	const [showApp, setShowApp] = useState(false)
+	const [progress, setProgress] = useState(0)
 	/** Ensures we only start the exit sequence once. */
 	const hasStartedExitRef = useRef(false)
 
@@ -144,6 +144,23 @@ export function AppLoader({ children }: AppLoaderProps) {
 			timers.forEach((timer) => window.clearTimeout(timer))
 		}
 	}, [])
+
+	// Animate progress 0→100 over EXPAND_DELAY_MS + LOCKUP_HOLD_MS when showAM becomes true.
+	useEffect(() => {
+		if (!showAM) return
+		const duration = EXPAND_DELAY_MS + LOCKUP_HOLD_MS
+		const start = performance.now()
+		let rafId: number
+
+		const tick = (now: number) => {
+			const elapsed = now - start
+			const pct = Math.min(100, Math.round((elapsed / duration) * 100))
+			setProgress(pct)
+			if (pct < 100) rafId = requestAnimationFrame(tick)
+		}
+		rafId = requestAnimationFrame(tick)
+		return () => cancelAnimationFrame(rafId)
+	}, [showAM])
 
 	// When fonts loaded and hold elapsed, start exit; after EXIT_DURATION_MS remove overlay.
 	useEffect(() => {
@@ -235,10 +252,18 @@ export function AppLoader({ children }: AppLoaderProps) {
 								})}
 							</span>
 
-							{/* AM monogram: typewriter-style stroke animation (draw A, M, then erase) */}
+							{/* Progress bar: fills 0→100% during loading sequence */}
 							{showAM && (
-								<div className="mt-10">
-									<LoaderAMMonogram />
+								<div className="mt-10 flex flex-col items-center gap-2">
+									<div className="w-48 h-[2px] bg-white/20 overflow-hidden">
+										<div
+											className="h-full bg-selection"
+											style={{ width: `${progress}%` }}
+										/>
+									</div>
+									<span className="text-[11px] uppercase tracking-[0.35em] text-white/65 tabular-nums">
+										{progress}%
+									</span>
 								</div>
 							)}
 						</div>
