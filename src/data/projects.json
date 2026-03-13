@@ -1,27 +1,27 @@
 [
 	{
-		"id": "aeons",
-		"title": "AEONS",
-		"description": "E-commerce and content for premium wellness and supplements. Shopify store with GSAP animations and subscription flows.",
-		"tags": ["Shopify", "GSAP", "Subscription"],
-		"image": "",
-		"link": "https://aeons.co.uk/",
-		"year": "2025"
-	},
-	{
 		"id": "bamboogoo",
 		"title": "BAMBOOGOO",
 		"description": "Tattoo aftercare and skincare e-commerce. Shopify theme work with Liquid and custom JS.",
-		"tags": ["Shopify", "Liquid", "JS"],
+		"tags": ["Shopify", "Subscription", "GSAP"],
 		"image": "",
 		"link": "https://bamboogoo.com/",
+		"year": "2026"
+	},
+	{
+		"id": "aeons",
+		"title": "AEONS",
+		"description": "E-commerce and content for premium wellness and supplements. Shopify store with GSAP animations and subscription flows.",
+		"tags": ["Shopify", "GSAP", "LIQUID"],
+		"image": "",
+		"link": "https://aeons.co.uk/",
 		"year": "2025"
 	},
 	{
 		"id": "comoletics",
 		"title": "COMOLETICS",
 		"description": "Activewear and outerwear e-commerce. Shopify with custom app integration.",
-		"tags": ["Shopify", "Custom App"],
+		"tags": ["Shopify", "Liquid", "JS"],
 		"image": "",
 		"link": "https://comoletics.com/",
 		"year": "2024"
@@ -30,7 +30,7 @@
 		"id": "finshark",
 		"title": "FINSHARK",
 		"description": "Open banking payments, payouts and insights. Marketing site built with HTML, WordPress, SCSS, JS and GSAP.",
-		"tags": ["HTML", "WordPress", "SCSS", "JS", "GSAP"],
+		"tags": ["WordPress", "SCSS", "JS"],
 		"image": "",
 		"link": "https://finshark.io/",
 		"year": "2024"

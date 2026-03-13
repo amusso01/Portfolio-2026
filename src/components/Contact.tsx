@@ -217,7 +217,7 @@ export function Contact() {
 							<div className="form-field">
 								<label
 									htmlFor="name"
-									className="block text-xs font-body font-medium text-muted uppercase tracking-widest mb-3"
+									className="block text-xs font-body font-medium text-muted uppercase tracking-widest mb-1"
 								>
 									Name
 								</label>
@@ -228,7 +228,7 @@ export function Contact() {
 									value={formData.name}
 									onChange={handleChange}
 									required
-									className="w-full px-0 py-4 bg-transparent border-0 border-b-2 border-subtle/70 text-ink font-body placeholder:text-muted/50 focus:outline-none focus:border-ink focus:ring-0 transition-colors duration-300"
+									className="w-full px-0 py-2 bg-transparent border-0 border-b-2 border-subtle/70 text-ink font-body placeholder:text-muted/50 focus:outline-none focus:border-ink focus:ring-0 transition-colors duration-300"
 									placeholder="Your name"
 								/>
 							</div>
@@ -236,7 +236,7 @@ export function Contact() {
 							<div className="form-field">
 								<label
 									htmlFor="email"
-									className="block text-xs font-body font-medium text-muted uppercase tracking-widest mb-3"
+									className="block text-xs font-body font-medium text-muted uppercase tracking-widest mb-1"
 								>
 									Contact Email
 								</label>
@@ -247,7 +247,7 @@ export function Contact() {
 									value={formData.email}
 									onChange={handleChange}
 									required
-									className="w-full px-0 py-4 bg-transparent border-0 border-b-2 border-subtle/70 text-ink font-body placeholder:text-muted/50 focus:outline-none focus:border-ink focus:ring-0 transition-colors duration-300"
+									className="w-full px-0 py-2 bg-transparent border-0 border-b-2 border-subtle/70 text-ink font-body placeholder:text-muted/50 focus:outline-none focus:border-ink focus:ring-0 transition-colors duration-300"
 									placeholder="your@email.com"
 								/>
 							</div>
@@ -255,7 +255,7 @@ export function Contact() {
 							<div className="form-field">
 								<label
 									htmlFor="budget"
-									className="block text-xs font-body font-medium text-muted uppercase tracking-widest mb-3"
+									className="block text-xs font-body font-medium text-muted uppercase tracking-widest mb-1"
 								>
 									Project Budget
 								</label>
@@ -265,7 +265,7 @@ export function Contact() {
 									value={formData.budget}
 									onChange={handleChange}
 									required
-									className="w-full px-0 py-4 bg-transparent border-0 border-b-2 border-subtle/70 text-ink font-body focus:outline-none focus:border-ink focus:ring-0 transition-colors duration-300 cursor-pointer appearance-none"
+									className="w-full px-0 py-2 bg-transparent border-0 border-b-2 border-subtle/70 text-ink font-body focus:outline-none focus:border-ink focus:ring-0 transition-colors duration-300 cursor-pointer appearance-none"
 								>
 									<option value="" disabled>
 										Select budget
@@ -281,7 +281,7 @@ export function Contact() {
 							<div className="form-field">
 								<label
 									htmlFor="project"
-									className="block text-xs font-body font-medium text-muted uppercase tracking-widest mb-3"
+									className="block text-xs font-body font-medium text-muted uppercase tracking-widest mb-1"
 								>
 									Nature of Project
 								</label>
@@ -292,29 +292,18 @@ export function Contact() {
 									onChange={handleChange}
 									required
 									rows={4}
-									className="w-full px-0 py-4 bg-transparent border-0 border-b-2 border-subtle/70 text-ink font-body placeholder:text-muted/50 focus:outline-none focus:border-ink focus:ring-0 transition-colors duration-300 resize-none"
+									className="w-full px-0 py-2 bg-transparent border-0 border-b-2 border-subtle/70 text-ink font-body placeholder:text-muted/50 focus:outline-none focus:border-ink focus:ring-0 transition-colors duration-300 resize-none"
 									placeholder="Tell me about your project..."
 								/>
 							</div>
 
 							<div className="form-field">
-								{TURNSTILE_SITE_KEY && (
-									<Turnstile
-										ref={turnstileRef}
-										siteKey={TURNSTILE_SITE_KEY}
-										onSuccess={setTurnstileToken}
-										onExpire={() => setTurnstileToken(null)}
-										options={{ theme: 'light', size: 'flexible' }}
-										className="mb-4"
-									/>
-								)}
-
 								<div className="w-full [&>div]:block [&>div]:w-full">
 									<Magnetic strength={0.2} bounds={0.4}>
 										<button
 											type="submit"
 											disabled={isSubmitting || !turnstileToken}
-											className="w-full py-4 bg-ink text-white font-body font-medium text-lg flex items-center justify-center gap-2 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+											className="w-full mb-4 py-4 bg-ink text-white font-body font-medium text-lg flex items-center justify-center gap-2 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
 										>
 											{isSubmitting ? (
 												'Sending...'
@@ -329,15 +318,26 @@ export function Contact() {
 								</div>
 
 								{submitStatus === 'success' && (
-									<p className="text-black font-body font-medium mt-1">
+									<p className="text-black font-body font-medium mt-1 mb-4">
 										Message sent successfully! I&apos;ll get back to you soon.
 									</p>
 								)}
 
 								{submitStatus === 'error' && (
-									<p className="text-red-500 font-body font-medium mt-1">
+									<p className="text-red-500 font-body font-medium mt-1 mb-4">
 										Something went wrong. Please try again.
 									</p>
+								)}
+
+								{TURNSTILE_SITE_KEY && (
+									<Turnstile
+										ref={turnstileRef}
+										siteKey={TURNSTILE_SITE_KEY}
+										onSuccess={setTurnstileToken}
+										onExpire={() => setTurnstileToken(null)}
+										options={{ theme: 'light', size: 'flexible' }}
+										className="mb-4"
+									/>
 								)}
 							</div>
 						</form>
