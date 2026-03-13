@@ -252,18 +252,41 @@ export function AppLoader({ children }: AppLoaderProps) {
 								})}
 							</span>
 
-							{/* Progress bar: fills 0→100% during loading sequence */}
+							{/* Progress semicircle: fills 0→100% during loading sequence */}
 							{showAM && (
-								<div className="mt-10 flex flex-col items-center gap-2">
-									<div className="w-48 h-[2px] bg-white/20 overflow-hidden">
-										<div
-											className="h-full bg-selection"
-											style={{ width: `${progress}%` }}
+								<div className="mt-1 flex items-center justify-center">
+									<svg width="120" height="68" viewBox="0 0 120 68">
+										{/* Track */}
+										<path
+											d="M 4 62 A 56 56 0 0 1 116 62"
+											fill="none"
+											stroke="rgba(255,255,255,0.2)"
+											strokeWidth="2"
+											strokeLinecap="round"
 										/>
-									</div>
-									<span className="text-[11px] uppercase tracking-[0.35em] text-white/65 tabular-nums">
-										{progress}%
-									</span>
+										{/* Fill */}
+										<path
+											d="M 4 62 A 56 56 0 0 1 116 62"
+											fill="none"
+											stroke="#f7924e"
+											strokeWidth="2"
+											strokeLinecap="round"
+											strokeDasharray={`${progress * 1.759} 175.9`}
+										/>
+										<text
+											x="60"
+											y="56"
+											dx="0.175em"
+											textAnchor="middle"
+											dominantBaseline="central"
+											fill="rgba(255,255,255,0.65)"
+											fontSize="11"
+											letterSpacing="0.35em"
+											fontFamily="inherit"
+										>
+											{progress}%
+										</text>
+									</svg>
 								</div>
 							)}
 						</div>
