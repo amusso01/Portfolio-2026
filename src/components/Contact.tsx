@@ -197,7 +197,7 @@ export function Contact() {
 				<div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
 					{/* Left column */}
 					<div className="lg:col-span-5 flex flex-col justify-center">
-						<p className="text-muted text-lg lg:text-[1.55rem] leading-[45px] mb-8">
+						<p className="text-muted text-lg lg:text-[1.55rem] leading-normal md:leading-[45px] mb-8">
 							Have a project in mind? I&apos;d love to hear about it. Let&apos;s
 							discuss how we can bring your vision to life.
 						</p>
@@ -318,7 +318,11 @@ export function Contact() {
 								</div>
 
 								{submitStatus === 'success' && (
-									<p className="text-black font-body font-medium mt-1 mb-4">
+									<p className="text-black font-body font-medium mt-1 mb-4 flex items-center gap-2">
+										<span
+											className="size-2 rounded-full bg-green-500 shrink-0"
+											aria-hidden
+										/>
 										Message sent successfully! I&apos;ll get back to you soon.
 									</p>
 								)}
@@ -335,7 +339,11 @@ export function Contact() {
 										siteKey={TURNSTILE_SITE_KEY}
 										onSuccess={setTurnstileToken}
 										onExpire={() => setTurnstileToken(null)}
-										options={{ theme: 'light', size: 'flexible' }}
+										options={{
+											theme: 'light',
+											size: 'normal',
+											appearance: 'interaction-only',
+										}}
 										className="mb-4"
 									/>
 								)}

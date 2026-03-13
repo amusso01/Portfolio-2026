@@ -1,9 +1,17 @@
+/**
+ * Cloudflare Worker for the portfolio site.
+ * Handles the contact form API: validates Turnstile, then sends email via Resend.
+ * All other requests are passed through to the static assets.
+ */
+
+/** Worker bindings: static asset fetcher and API keys for Resend and Turnstile. */
 interface Env {
 	ASSETS: Fetcher
 	RESEND_API_KEY: string
 	TURNSTILE_SECRET_KEY: string
 }
 
+/** Shape of the JSON body for POST /api/contact. */
 interface ContactPayload {
 	name: string
 	email: string
@@ -12,12 +20,14 @@ interface ContactPayload {
 	turnstileToken: string
 }
 
+/** CORS headers applied to API and preflight responses. */
 const CORS_HEADERS = {
 	'Access-Control-Allow-Origin': '*',
 	'Access-Control-Allow-Methods': 'POST, OPTIONS',
 	'Access-Control-Allow-Headers': 'Content-Type',
 }
 
+/** Verifies a Turnstile challenge token with Cloudflare's siteverify API. */
 async function verifyTurnstile(
 	token: string,
 	secret: string,
@@ -36,6 +46,7 @@ async function verifyTurnstile(
 	return result.success
 }
 
+/** Sends the contact form data as an email via the Resend API. */
 async function sendEmail(
 	apiKey: string,
 	payload: Omit<ContactPayload, 'turnstileToken'>,
@@ -72,6 +83,7 @@ async function sendEmail(
 	})
 }
 
+/** Builds a JSON response with CORS headers. */
 function json(data: Record<string, unknown>, status = 200): Response {
 	return new Response(JSON.stringify(data), {
 		status,
@@ -83,10 +95,12 @@ export default {
 	async fetch(request: Request, env: Env): Promise<Response> {
 		const url = new URL(request.url)
 
+		// CORS preflight for /api/* routes
 		if (request.method === 'OPTIONS' && url.pathname.startsWith('/api/')) {
 			return new Response(null, { status: 204, headers: CORS_HEADERS })
 		}
 
+		// Contact form: validate input → verify Turnstile → send email via Resend
 		if (url.pathname === '/api/contact' && request.method === 'POST') {
 			try {
 				const body = (await request.json()) as ContactPayload
@@ -131,6 +145,7 @@ export default {
 			}
 		}
 
+		// All other requests: serve static assets
 		return env.ASSETS.fetch(request)
 	},
 } satisfies ExportedHandler<Env>

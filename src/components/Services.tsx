@@ -145,7 +145,7 @@ function ServiceRow({
 			<div className="md:hidden px-4 pb-6">
 				<p
 					ref={descMobileRef}
-					className="text-sm font-body leading-relaxed text-muted pl-12"
+					className="text-base font-body leading-relaxed text-muted pl-12"
 				>
 					{service.description}
 				</p>

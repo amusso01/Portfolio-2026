@@ -181,7 +181,7 @@ export function About() {
 						ref={contentRef}
 						className="lg:col-span-5 flex flex-col justify-center"
 					>
-						<p className="text-lg lg:text-[1.55rem] text-ink leading-[33px] md:leading-[45px] md:text-justify">
+						<p className="text-[20px] lg:text-[1.55rem] text-ink leading-normal md:leading-[45px] md:text-justify">
 							{profileData.bio}
 						</p>
 					</div>
@@ -192,9 +192,9 @@ export function About() {
 					<div className="lg:col-span-5 flex flex-col justify-center">
 						<p
 							ref={whatIBuildRef}
-							className="text-lg lg:text-[1.55rem] text-ink leading-[33px] md:leading-[45px] md:text-justify"
+							className="text-[20px] lg:text-[1.55rem] text-ink leading-normal md:leading-[45px] md:text-justify"
 						>
-							<span className="block font-semibold text-muted uppercase tracking-widest mb-4">
+							<span className="block font-semibold uppercase tracking-widest mb-4">
 								What I Build
 							</span>
 							{profileData.whatIBuild}
@@ -222,9 +222,9 @@ export function About() {
 						</div>
 						<p
 							ref={outsideWorkRef}
-							className="text-lg lg:text-[1.55rem] text-ink leading-[33px] md:leading-[45px] md:text-justify mt-10"
+							className="text-[20px] lg:text-[1.55rem] text-ink leading-normal md:leading-[45px] md:text-justify mt-10"
 						>
-							<span className="block font-semibold text-muted uppercase tracking-widest mb-4">
+							<span className="block font-semibold uppercase tracking-widest mb-4">
 								Outside of Work
 							</span>
 							{profileData.outsideOfWork}
