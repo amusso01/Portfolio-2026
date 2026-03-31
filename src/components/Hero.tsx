@@ -108,6 +108,9 @@ export function Hero() {
 							<img
 								src={PLACEHOLDER_IMAGE}
 								alt={profileData.name}
+								width={480}
+								height={640}
+								fetchPriority="high"
 								className="w-full h-full object-cover"
 							/>
 						</div>

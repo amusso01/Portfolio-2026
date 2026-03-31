@@ -8,7 +8,7 @@ import profileData from '../data/profile.json'
 export const HELLO_CHARS = ['H', 'e', 'l', 'l', 'o'] as const
 
 /** Replace with your own headshot URL */
-export const PLACEHOLDER_IMAGE = '/AM.png'
+export const PLACEHOLDER_IMAGE = '/AM.webp'
 
 /** Word chunk for subtitle stagger animation */
 export interface SubtitleWord {
