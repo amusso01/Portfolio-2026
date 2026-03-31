@@ -89,6 +89,9 @@ export function Contact() {
 			})
 
 			if (res.ok) {
+				if (typeof umami !== 'undefined') {
+					umami.track('contact_form_submit', { budget: formData.budget })
+				}
 				setFormData({ name: '', email: '', budget: '', project: '' })
 				setSubmitStatus('success')
 				setTurnstileToken(null)

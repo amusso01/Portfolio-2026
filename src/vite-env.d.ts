@@ -7,3 +7,7 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv
 }
+
+declare const umami: {
+  track(event: string, data?: Record<string, string | number | boolean>): void
+}
