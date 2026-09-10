@@ -1,5 +1,14 @@
 [
 	{
+		"id": "groundcontrol",
+		"title": "GROUNDCONTROL",
+		"description": "Satellite IoT and tracking for remote assets. WordPress site with Shopify and CI/CD.",
+		"tags": ["WordPress", "Shopify", "CI/CD"],
+		"image": "",
+		"link": "https://www.groundcontrol.com/",
+		"year": "2026"
+	},
+	{
 		"id": "bamboogoo",
 		"title": "BAMBOOGOO",
 		"description": "Tattoo aftercare and skincare e-commerce. Shopify theme work with Liquid and custom JS.",

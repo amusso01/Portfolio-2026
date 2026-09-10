@@ -52,10 +52,10 @@ async function sendEmail(
 	payload: Omit<ContactPayload, 'turnstileToken'>,
 ): Promise<Response> {
 	const budgetLabels: Record<string, string> = {
-		'800-1500': '£800 – £1,500',
+		'under-1500': 'Less than £1,500',
 		'1500-3000': '£1,500 – £3,000',
-		'3000-5000': '£3,000 – £5,000',
-		'over-5000': 'Over £5,000',
+		'3000-8000': '£3,000 – £8,000',
+		'over-8000': 'Over £8,000',
 	}
 
 	const budget = budgetLabels[payload.budget] ?? payload.budget

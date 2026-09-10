@@ -34,10 +34,10 @@ interface FormData {
 }
 
 const budgetOptions = [
-	{ value: '800-1500', label: '£800 - £1,500' },
+	{ value: 'under-1500', label: 'Less than £1,500' },
 	{ value: '1500-3000', label: '£1,500 - £3,000' },
-	{ value: '3000-5000', label: '£3,000 - £5,000' },
-	{ value: 'over-5000', label: 'Over £5,000' },
+	{ value: '3000-8000', label: '£3,000 - £8,000' },
+	{ value: 'over-8000', label: 'Over £8,000' },
 ]
 
 const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY as string

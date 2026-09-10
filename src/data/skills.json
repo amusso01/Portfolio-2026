@@ -2,7 +2,7 @@
 	"techStack": [
 		"HTML",
 		"CSS",
-		"SCSS",
+		"Docker",
 		"JavaScript",
 		"React",
 		"Alpine",
@@ -11,6 +11,6 @@
 		"GSAP",
 		"PHP",
 		"Shopify",
-		"WordPress"
+		"WooCommerce"
 	]
 }
