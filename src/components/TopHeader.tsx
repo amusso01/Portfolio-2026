@@ -193,6 +193,11 @@ export function TopHeader() {
 		scrollToSection('#hero')
 	}
 
+	const handleContactClick = (e: MouseEvent<HTMLAnchorElement>) => {
+		e.preventDefault()
+		scrollToSection('#contact')
+	}
+
 	return (
 		<div className="fixed top-0 left-0 right-0 z-50 bg-canvas/95 backdrop-blur-sm border-b border-subtle/40">
 			<div className="container-custom">
@@ -242,9 +247,14 @@ export function TopHeader() {
 							</span>
 							<div className="flex items-center gap-2 leading-tight">
 								<PulsatingDot />
-								<span className="text-sm md:text-[13px] font-body font-[350] text-ink">
+								<a
+									href="#contact"
+									onClick={handleContactClick}
+									className="text-sm md:text-[13px] font-body font-[350] text-ink hover:opacity-80 transition-opacity duration-200"
+									aria-label="Scroll to contact"
+								>
 									Available for freelance
-								</span>
+								</a>
 							</div>
 						</div>
 					</div>
